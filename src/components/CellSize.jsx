@@ -8,7 +8,11 @@ const CellSize = props => {
     props.actions.setCellSize(+event.target.value || 0);
   };
 
-  const { cellSize } = props;
+  const { cellSize, showDimensionsUI } = props;
+
+  if (!showDimensionsUI) {
+    return null;
+  }
 
   return (
     <div className="cell-size">
@@ -28,7 +32,8 @@ const CellSize = props => {
 };
 
 const mapStateToProps = state => ({
-  cellSize: state.present.get('cellSize')
+  cellSize: state.present.get('cellSize'),
+  showDimensionsUI: state.present.get('options').get('showDimensionsUI')
 });
 
 const mapDispatchToProps = dispatch => ({
