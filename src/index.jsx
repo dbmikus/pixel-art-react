@@ -14,6 +14,7 @@ ReactDOM.render(
     }}
     frameConfig={{ columns: 24, rows: 30 }}
     showFrameControls={false}
+    showDimensionsUI={false}
   />,
   document.getElementById('app')
 );

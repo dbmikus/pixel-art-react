@@ -5,7 +5,12 @@ import { EthContextProvider } from './contexts/ethContext';
 import Root from './components/Root';
 import * as actionTypes from './store/actions/actionTypes';
 
-export default function PixelArt({ showFrameControls, mintFn, frameConfig }) {
+export default function PixelArt({
+  showFrameControls,
+  showDimensionsUI,
+  mintFn,
+  frameConfig
+}) {
   const [showEditor, setShowEditor] = useState(false);
   useEffect(() => {
     setShowEditor(true);
@@ -17,7 +22,12 @@ export default function PixelArt({ showFrameControls, mintFn, frameConfig }) {
   return (
     <PixelArtApp
       mintFn={mintFn}
-      showFrameControls={showFrameControls}
+      showFrameControls={
+        showFrameControls === undefined ? true : showFrameControls
+      }
+      showDimensionsUI={
+        showDimensionsUI === undefined ? true : showDimensionsUI
+      }
       frameConfig={frameConfig}
     />
   );
@@ -27,25 +37,29 @@ export default function PixelArt({ showFrameControls, mintFn, frameConfig }) {
 // component that only gets rendered in the browser. Then we don't need to
 // worry about if all of the code is Node.js compatible because it can be gated
 // behind `useEffect`.
-function PixelArtApp({ showFrameControls, mintFn, frameConfig }) {
+function PixelArtApp({
+  showFrameControls,
+  showDimensionsUI,
+  mintFn,
+  frameConfig
+}) {
   const devMode = process.env.NODE_ENV === 'development';
   const store = configureStore({ devMode });
 
   useEffect(() => {
     if (frameConfig) {
-      const fControls =
-        showFrameControls === undefined ? true : showFrameControls;
       const frameInitAction = {
         type: actionTypes.NEW_PROJECT,
         options: {
           columns: frameConfig.columns,
           rows: frameConfig.rows,
-          showFrameControls: fControls
+          showFrameControls,
+          showDimensionsUI
         }
       };
       store.dispatch(frameInitAction);
     }
-  }, [frameConfig, showFrameControls]);
+  }, [frameConfig, showFrameControls, showDimensionsUI, store]);
 
   return (
     <EthContextProvider mintFn={mintFn}>

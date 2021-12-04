@@ -59,7 +59,7 @@ function generateDefaultState() {
   return setInitialState(Map(), {
     type: types.SET_INITIAL_STATE,
     state: {},
-    options: { showFrameControls: false }
+    options: { showFrameControls: true, showDimensionsUI: true }
   });
 }
 
