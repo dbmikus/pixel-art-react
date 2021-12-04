@@ -29,7 +29,7 @@ const createIncludedActions = () =>
     NEW_PROJECT
   ]);
 
-const configureStore = devMode => {
+const configureStore = ({ devMode }) => {
   let store;
   if (devMode) {
     store = createStore(

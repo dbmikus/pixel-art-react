@@ -13,6 +13,7 @@ ReactDOM.render(
       });
     }}
     frameConfig={{ columns: 24, rows: 30 }}
+    showFrameControls={false}
   />,
   document.getElementById('app')
 );
