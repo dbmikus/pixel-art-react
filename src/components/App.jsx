@@ -60,6 +60,59 @@ export default class App extends React.Component {
     this.setState({ helpOn: !helpOn });
   }
 
+  renderCopyCssButton({ helpOn }) {
+    const renderButton = false;
+    if (!renderButton) {
+      return null;
+    }
+
+    return (
+      <button
+        type="button"
+        className="app__copycss-button"
+        onClick={() => {
+          this.changeModalType('copycss');
+        }}
+        data-tooltip={helpOn ? 'Check your CSS generated code' : null}
+      >
+        css
+      </button>
+    );
+  }
+
+  renderIOControls({ helpOn }) {
+    const doRender = false;
+    if (!doRender) {
+      return null;
+    }
+
+    return (
+      <div className="app__mobile--group">
+        <div data-tooltip={helpOn ? 'New project' : null}>
+          <NewProjectContainer />
+        </div>
+        <div data-tooltip={helpOn ? 'Mint art' : null}>
+          <MintDrawingContainer />
+        </div>
+        <div className="app__load-save-container">
+          <button
+            type="button"
+            className="app__load-button"
+            onClick={() => {
+              this.changeModalType('load');
+            }}
+            data-tooltip={helpOn ? 'Load projects you stored before' : null}
+          >
+            LOAD
+          </button>
+          <div data-tooltip={helpOn ? 'Save your project' : null}>
+            <SaveDrawingContainer />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { helpOn, modalType, modalOpen } = this.state;
     return (
@@ -92,93 +145,15 @@ export default class App extends React.Component {
           <div className="left col-1-4">
             <div className="app__left-side">
               <div className="app__mobile--container max-width-container">
-                <div className="app__mobile--group">
-                  <div data-tooltip={helpOn ? 'New project' : null}>
-                    <NewProjectContainer />
-                  </div>
-                  <div data-tooltip={helpOn ? 'Mint art' : null}>
-                    <MintDrawingContainer />
-                  </div>
-                  <div className="app__load-save-container">
-                    <button
-                      type="button"
-                      className="app__load-button"
-                      onClick={() => {
-                        this.changeModalType('load');
-                      }}
-                      data-tooltip={
-                        helpOn ? 'Load projects you stored before' : null
-                      }
-                    >
-                      LOAD
-                    </button>
-                    <div data-tooltip={helpOn ? 'Save your project' : null}>
-                      <SaveDrawingContainer />
-                    </div>
-                  </div>
-                  <div
-                    data-tooltip={helpOn ? 'Undo (CTRL+Z) Redo (CTRL+Y)' : null}
-                  >
-                    <UndoRedoContainer />
-                  </div>
-                  <div className="app__tools-wrapper grid-3">
-                    <div
-                      data-tooltip={
-                        helpOn
-                          ? 'It fills an area of the current frame based on color similarity (B)'
-                          : null
-                      }
-                    >
-                      <BucketContainer />
-                    </div>
-                    <div
-                      data-tooltip={
-                        helpOn ? 'Sample a color from your drawing (O)' : null
-                      }
-                    >
-                      <EyedropperContainer />
-                    </div>
-                    <div
-                      data-tooltip={
-                        helpOn
-                          ? 'Choose a new color that is not in your palette (P)'
-                          : null
-                      }
-                    >
-                      <ColorPickerContainer />
-                    </div>
-                    <div data-tooltip={helpOn ? 'Remove colors (E)' : null}>
-                      <EraserContainer />
-                    </div>
-                    <div
-                      data-tooltip={
-                        helpOn
-                          ? 'Move your drawing around the canvas (M)'
-                          : null
-                      }
-                    >
-                      <MoveContainer />
-                    </div>
-                  </div>
-                </div>
+                {this.renderIOControls({ helpOn })}
+                <DrawingControls helpOn={helpOn} />
                 <div className="app__mobile--group">
                   <PaletteGridContainer />
                 </div>
               </div>
               <div className="app__mobile--container max-width-container">
                 <div className="app__mobile--group">
-                  <button
-                    type="button"
-                    className="app__copycss-button"
-                    onClick={() => {
-                      this.changeModalType('copycss');
-                    }}
-                    data-tooltip={
-                      helpOn ? 'Check your CSS generated code' : null
-                    }
-                  >
-                    css
-                  </button>
+                  {this.renderCopyCssButton({ helpOn })}
                 </div>
                 <div className="app__mobile--group">
                   <div className="app__social-container">
@@ -318,4 +293,47 @@ export default class App extends React.Component {
       </div>
     );
   }
+}
+
+function DrawingControls({ helpOn }) {
+  return (
+    <div className="app__mobile--group">
+      <div data-tooltip={helpOn ? 'Undo (CTRL+Z) Redo (CTRL+Y)' : null}>
+        <UndoRedoContainer />
+      </div>
+      <div className="app__tools-wrapper grid-3">
+        <div
+          data-tooltip={
+            helpOn
+              ? 'It fills an area of the current frame based on color similarity (B)'
+              : null
+          }
+        >
+          <BucketContainer />
+        </div>
+        <div
+          data-tooltip={helpOn ? 'Sample a color from your drawing (O)' : null}
+        >
+          <EyedropperContainer />
+        </div>
+        <div
+          data-tooltip={
+            helpOn ? 'Choose a new color that is not in your palette (P)' : null
+          }
+        >
+          <ColorPickerContainer />
+        </div>
+        <div data-tooltip={helpOn ? 'Remove colors (E)' : null}>
+          <EraserContainer />
+        </div>
+        <div
+          data-tooltip={
+            helpOn ? 'Move your drawing around the canvas (M)' : null
+          }
+        >
+          <MoveContainer />
+        </div>
+      </div>
+    </div>
+  );
 }
