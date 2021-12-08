@@ -142,7 +142,7 @@ export default class App extends React.Component {
           <FramesHandlerContainer />
         </div>
         <div className="app__central-container">
-          <div className="left col-1-4">
+          <div>
             <div className="app__left-side">
               <div className="app__mobile--container max-width-container">
                 {this.renderIOControls({ helpOn })}
@@ -205,7 +205,7 @@ export default class App extends React.Component {
               drawHandlersFactory={this.drawHandlersFactory}
             />
           </div>
-          <div className="right col-1-4">
+          <div>
             <div className="app__right-side">
               <div className="app__mobile--container">
                 <div className="app__mobile--group">
