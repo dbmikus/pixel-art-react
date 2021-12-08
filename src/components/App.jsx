@@ -142,72 +142,37 @@ export default class App extends React.Component {
           <FramesHandlerContainer />
         </div>
         <div className="app__central-container">
-          <div>
-            <LeftControls
-              helpOn={helpOn}
-              downloadClickFn={() => {
-                this.changeModalType('download');
-              }}
-              helpClickFn={() => {
-                this.toggleHelp();
-              }}
-              keyBindingsClickFn={() => {
-                this.changeModalType('keybindings');
-              }}
-              copyCssClickFn={() => {
-                this.changeModalType('copycss');
-              }}
-              isCssCopyButtonRendered={false}
-              loadClickFn={() => {
-                this.changeModalType('load');
-              }}
-              isIOControlsRendered={false}
-            />
-          </div>
+          <LeftControls
+            helpOn={helpOn}
+            downloadClickFn={() => {
+              this.changeModalType('download');
+            }}
+            helpClickFn={() => {
+              this.toggleHelp();
+            }}
+            keyBindingsClickFn={() => {
+              this.changeModalType('keybindings');
+            }}
+            copyCssClickFn={() => {
+              this.changeModalType('copycss');
+            }}
+            isCssCopyButtonRendered={false}
+            loadClickFn={() => {
+              this.changeModalType('load');
+            }}
+            isIOControlsRendered={false}
+          />
           <div className="center col-2-4">
             <PixelCanvasContainer
               drawHandlersFactory={this.drawHandlersFactory}
             />
           </div>
-          <div>
-            <div className="app__right-side">
-              <div className="app__mobile--container">
-                <div className="app__mobile--group">
-                  <PreviewBox
-                    helpOn={helpOn}
-                    callback={() => {
-                      this.changeModalType('preview');
-                    }}
-                  />
-                  <div
-                    data-tooltip={helpOn ? 'Reset the selected frame' : null}
-                    className="max-width-container-centered {"
-                  >
-                    <ResetContainer />
-                  </div>
-                  <div
-                    data-tooltip={helpOn ? 'Number of columns and rows' : null}
-                    className="max-width-container-centered {"
-                  >
-                    <DimensionsContainer />
-                  </div>
-                </div>
-                <div className="app__mobile--group max-width-container-centered {">
-                  <div data-tooltip={helpOn ? 'Size of one tile in px' : null}>
-                    <CellSizeContainer />
-                  </div>
-                  <div
-                    data-tooltip={
-                      helpOn ? 'Animation duration in seconds' : null
-                    }
-                  >
-                    <DurationContainer />
-                    <CellsInfo />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <RightControls
+            helpOn={helpOn}
+            previewClickFn={() => {
+              this.changeModalType('preview');
+            }}
+          />
         </div>
         <div className="css-container">
           <CssDisplayContainer />
@@ -313,55 +278,57 @@ function LeftControls({
   isIOControlsRendered
 }) {
   return (
-    <div className="app__left-side">
-      <div className="app__mobile--container max-width-container">
-        {isIOControlsRendered ? (
-          <IOControls helpOn={helpOn} loadClickFn={loadClickFn} />
-        ) : null}
-        <DrawingControls helpOn={helpOn} />
-        <div className="app__mobile--group">
-          <PaletteGridContainer />
-        </div>
-      </div>
-      <div className="app__mobile--container max-width-container">
-        <div className="app__mobile--group">
-          {isCssCopyButtonRendered ? (
-            <button
-              type="button"
-              className="app__copycss-button"
-              onClick={copyCssClickFn}
-              data-tooltip={helpOn ? 'Check your CSS generated code' : null}
-            >
-              css
-            </button>
+    <div>
+      <div className="app__left-side">
+        <div className="app__mobile--container max-width-container">
+          {isIOControlsRendered ? (
+            <IOControls helpOn={helpOn} loadClickFn={loadClickFn} />
           ) : null}
+          <DrawingControls helpOn={helpOn} />
+          <div className="app__mobile--group">
+            <PaletteGridContainer />
+          </div>
         </div>
-        <div className="app__mobile--group">
-          <div className="app__social-container">
-            <div
-              data-tooltip={
-                helpOn ? 'Download your creation in different formats' : null
-              }
-            >
+        <div className="app__mobile--container max-width-container">
+          <div className="app__mobile--group">
+            {isCssCopyButtonRendered ? (
               <button
                 type="button"
-                aria-label="Download"
-                className="app__download-button"
-                onClick={downloadClickFn}
-              />
-            </div>
-            <div className="app__help-container">
-              <div data-tooltip="Toggle help tooltips">
+                className="app__copycss-button"
+                onClick={copyCssClickFn}
+                data-tooltip={helpOn ? 'Check your CSS generated code' : null}
+              >
+                css
+              </button>
+            ) : null}
+          </div>
+          <div className="app__mobile--group">
+            <div className="app__social-container">
+              <div
+                data-tooltip={
+                  helpOn ? 'Download your creation in different formats' : null
+                }
+              >
                 <button
                   type="button"
-                  aria-label="Help"
-                  className={`app__toggle-help-button
-                          ${helpOn ? ' selected' : ''}`}
-                  onClick={helpClickFn}
+                  aria-label="Download"
+                  className="app__download-button"
+                  onClick={downloadClickFn}
                 />
               </div>
-              <div data-tooltip={helpOn ? 'Show keyboard shortcuts' : null}>
-                <KeyBindings onClick={keyBindingsClickFn} />
+              <div className="app__help-container">
+                <div data-tooltip="Toggle help tooltips">
+                  <button
+                    type="button"
+                    aria-label="Help"
+                    className={`app__toggle-help-button
+                          ${helpOn ? ' selected' : ''}`}
+                    onClick={helpClickFn}
+                  />
+                </div>
+                <div data-tooltip={helpOn ? 'Show keyboard shortcuts' : null}>
+                  <KeyBindings onClick={keyBindingsClickFn} />
+                </div>
               </div>
             </div>
           </div>
@@ -391,6 +358,41 @@ function IOControls({ helpOn, loadClickFn }) {
         </button>
         <div data-tooltip={helpOn ? 'Save your project' : null}>
           <SaveDrawingContainer />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RightControls({ helpOn, previewClickFn }) {
+  return (
+    <div>
+      <div className="app__right-side">
+        <div className="app__mobile--container">
+          <div className="app__mobile--group">
+            <PreviewBox helpOn={helpOn} callback={previewClickFn} />
+            <div
+              data-tooltip={helpOn ? 'Reset the selected frame' : null}
+              className="max-width-container-centered {"
+            >
+              <ResetContainer />
+            </div>
+            <div
+              data-tooltip={helpOn ? 'Number of columns and rows' : null}
+              className="max-width-container-centered {"
+            >
+              <DimensionsContainer />
+            </div>
+          </div>
+          <div className="app__mobile--group max-width-container-centered {">
+            <div data-tooltip={helpOn ? 'Size of one tile in px' : null}>
+              <CellSizeContainer />
+            </div>
+            <div data-tooltip={helpOn ? 'Animation duration in seconds' : null}>
+              <DurationContainer />
+              <CellsInfo />
+            </div>
+          </div>
         </div>
       </div>
     </div>
