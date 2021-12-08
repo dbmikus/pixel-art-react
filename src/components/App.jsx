@@ -144,9 +144,6 @@ export default class App extends React.Component {
         <div className="app__central-container">
           <LeftControls
             helpOn={helpOn}
-            downloadClickFn={() => {
-              this.changeModalType('download');
-            }}
             helpClickFn={() => {
               this.toggleHelp();
             }}
@@ -169,6 +166,9 @@ export default class App extends React.Component {
           </div>
           <RightControls
             helpOn={helpOn}
+            downloadClickFn={() => {
+              this.changeModalType('download');
+            }}
             previewClickFn={() => {
               this.changeModalType('preview');
             }}
@@ -228,7 +228,6 @@ function LeftControls({
   helpOn,
   keyBindingsClickFn,
   helpClickFn,
-  downloadClickFn,
   copyCssClickFn,
   isCssCopyButtonRendered,
   loadClickFn,
@@ -261,18 +260,6 @@ function LeftControls({
           </div>
           <div className="app__mobile--group">
             <div className="app__social-container">
-              <div
-                data-tooltip={
-                  helpOn ? 'Download your creation in different formats' : null
-                }
-              >
-                <button
-                  type="button"
-                  aria-label="Download"
-                  className="app__download-button"
-                  onClick={downloadClickFn}
-                />
-              </div>
               <div className="app__help-container">
                 <div data-tooltip="Toggle help tooltips">
                   <button
@@ -357,7 +344,7 @@ function IOControls({ helpOn, loadClickFn }) {
   );
 }
 
-function RightControls({ helpOn, previewClickFn }) {
+function RightControls({ helpOn, previewClickFn, downloadClickFn }) {
   return (
     <div>
       <div className="app__right-side">
@@ -374,13 +361,25 @@ function RightControls({ helpOn, previewClickFn }) {
               <UndoRedoContainer />
             </div>
             <div
+              data-tooltip={
+                helpOn ? 'Download your creation in different formats' : null
+              }
+            >
+              <button
+                type="button"
+                aria-label="Download"
+                className="app__download-button"
+                onClick={downloadClickFn}
+              />
+            </div>
+            <div
               data-tooltip={helpOn ? 'Number of columns and rows' : null}
-              className="max-width-container-centered {"
+              className="max-width-container-centered"
             >
               <DimensionsContainer />
             </div>
           </div>
-          <div className="app__mobile--group max-width-container-centered {">
+          <div className="app__mobile--group max-width-container-centered">
             <div data-tooltip={helpOn ? 'Size of one tile in px' : null}>
               <CellSizeContainer />
             </div>

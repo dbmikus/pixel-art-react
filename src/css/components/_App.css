@@ -46,14 +46,12 @@
     }
   }
 
-  .app__social-container {
-    .app__download-button {
-      @mixin button brown;
-      @mixin icon download;
+  .app__download-button {
+    @mixin button brown;
+    @mixin icon download;
 
-      width: 100%;
-      margin-top: 1em;
-    }
+    width: 100%;
+    margin-top: 1em;
   }
 
   .app__help-container {
