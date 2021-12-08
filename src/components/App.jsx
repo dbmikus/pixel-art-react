@@ -242,11 +242,11 @@ function LeftControls({
             <IOControls helpOn={helpOn} loadClickFn={loadClickFn} />
           ) : null}
           <DrawingControls helpOn={helpOn} />
+        </div>
+        <div className="app__left-wide app__mobile--container max-width-container">
           <div className="app__mobile--group">
             <PaletteGridContainer />
           </div>
-        </div>
-        <div className="app__mobile--container max-width-container">
           <div className="app__mobile--group">
             {isCssCopyButtonRendered ? (
               <button
@@ -297,42 +297,35 @@ function LeftControls({
 
 function DrawingControls({ helpOn }) {
   return (
-    <div className="app__mobile--group">
-      <div data-tooltip={helpOn ? 'Undo (CTRL+Z) Redo (CTRL+Y)' : null}>
-        <UndoRedoContainer />
+    <div className="app__tools-wrapper app__mobile--group app__drawing-controls">
+      <div
+        data-tooltip={
+          helpOn
+            ? 'It fills an area of the current frame based on color similarity (B)'
+            : null
+        }
+      >
+        <BucketContainer />
       </div>
-      <div className="app__tools-wrapper grid-3">
-        <div
-          data-tooltip={
-            helpOn
-              ? 'It fills an area of the current frame based on color similarity (B)'
-              : null
-          }
-        >
-          <BucketContainer />
-        </div>
-        <div
-          data-tooltip={helpOn ? 'Sample a color from your drawing (O)' : null}
-        >
-          <EyedropperContainer />
-        </div>
-        <div
-          data-tooltip={
-            helpOn ? 'Choose a new color that is not in your palette (P)' : null
-          }
-        >
-          <ColorPickerContainer />
-        </div>
-        <div data-tooltip={helpOn ? 'Remove colors (E)' : null}>
-          <EraserContainer />
-        </div>
-        <div
-          data-tooltip={
-            helpOn ? 'Move your drawing around the canvas (M)' : null
-          }
-        >
-          <MoveContainer />
-        </div>
+      <div
+        data-tooltip={helpOn ? 'Sample a color from your drawing (O)' : null}
+      >
+        <EyedropperContainer />
+      </div>
+      <div
+        data-tooltip={
+          helpOn ? 'Choose a new color that is not in your palette (P)' : null
+        }
+      >
+        <ColorPickerContainer />
+      </div>
+      <div data-tooltip={helpOn ? 'Remove colors (E)' : null}>
+        <EraserContainer />
+      </div>
+      <div
+        data-tooltip={helpOn ? 'Move your drawing around the canvas (M)' : null}
+      >
+        <MoveContainer />
       </div>
     </div>
   );
@@ -376,6 +369,9 @@ function RightControls({ helpOn, previewClickFn }) {
               className="max-width-container-centered {"
             >
               <ResetContainer />
+            </div>
+            <div data-tooltip={helpOn ? 'Undo (CTRL+Z) Redo (CTRL+Y)' : null}>
+              <UndoRedoContainer />
             </div>
             <div
               data-tooltip={helpOn ? 'Number of columns and rows' : null}
