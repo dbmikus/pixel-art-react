@@ -224,49 +224,6 @@ export default class App extends React.Component {
   }
 }
 
-function DrawingControls({ helpOn }) {
-  return (
-    <div className="app__mobile--group">
-      <div data-tooltip={helpOn ? 'Undo (CTRL+Z) Redo (CTRL+Y)' : null}>
-        <UndoRedoContainer />
-      </div>
-      <div className="app__tools-wrapper grid-3">
-        <div
-          data-tooltip={
-            helpOn
-              ? 'It fills an area of the current frame based on color similarity (B)'
-              : null
-          }
-        >
-          <BucketContainer />
-        </div>
-        <div
-          data-tooltip={helpOn ? 'Sample a color from your drawing (O)' : null}
-        >
-          <EyedropperContainer />
-        </div>
-        <div
-          data-tooltip={
-            helpOn ? 'Choose a new color that is not in your palette (P)' : null
-          }
-        >
-          <ColorPickerContainer />
-        </div>
-        <div data-tooltip={helpOn ? 'Remove colors (E)' : null}>
-          <EraserContainer />
-        </div>
-        <div
-          data-tooltip={
-            helpOn ? 'Move your drawing around the canvas (M)' : null
-          }
-        >
-          <MoveContainer />
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function LeftControls({
   helpOn,
   keyBindingsClickFn,
@@ -332,6 +289,49 @@ function LeftControls({
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DrawingControls({ helpOn }) {
+  return (
+    <div className="app__mobile--group">
+      <div data-tooltip={helpOn ? 'Undo (CTRL+Z) Redo (CTRL+Y)' : null}>
+        <UndoRedoContainer />
+      </div>
+      <div className="app__tools-wrapper grid-3">
+        <div
+          data-tooltip={
+            helpOn
+              ? 'It fills an area of the current frame based on color similarity (B)'
+              : null
+          }
+        >
+          <BucketContainer />
+        </div>
+        <div
+          data-tooltip={helpOn ? 'Sample a color from your drawing (O)' : null}
+        >
+          <EyedropperContainer />
+        </div>
+        <div
+          data-tooltip={
+            helpOn ? 'Choose a new color that is not in your palette (P)' : null
+          }
+        >
+          <ColorPickerContainer />
+        </div>
+        <div data-tooltip={helpOn ? 'Remove colors (E)' : null}>
+          <EraserContainer />
+        </div>
+        <div
+          data-tooltip={
+            helpOn ? 'Move your drawing around the canvas (M)' : null
+          }
+        >
+          <MoveContainer />
         </div>
       </div>
     </div>
