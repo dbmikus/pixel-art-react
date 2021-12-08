@@ -1,11 +1,4 @@
 .pixel-art-react-container {
-  @media only screen and (max-width: 1250px) {
-    .app__left-side,
-    .app__right-side {
-      width: 100% !important;
-    }
-  }
-
   @media only screen and (max-width: 780px) {
     .dimensions {
       label {
@@ -30,36 +23,6 @@
   @media only screen and (max-width: 730px) {
     .app__copycss-button {
       margin-top: 1.4em !important;
-    }
-
-    .app__central-container {
-      .col-1-4 {
-        &.left {
-          lost-column: none;
-
-          .app__copycss-button {
-            padding: 4px !important;
-          }
-
-          .palette-grid {
-            margin: 0;
-          }
-        }
-
-        &.right {
-          lost-column: none;
-        }
-      }
-
-      .col-2-4 {
-        &.center {
-          lost-column: none;
-
-          .grid-container {
-            margin: 1em auto !important;
-          }
-        }
-      }
     }
 
     .app__mobile--container {
