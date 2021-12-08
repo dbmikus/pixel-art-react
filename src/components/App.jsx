@@ -143,62 +143,26 @@ export default class App extends React.Component {
         </div>
         <div className="app__central-container">
           <div>
-            <div className="app__left-side">
-              <div className="app__mobile--container max-width-container">
-                {this.renderIOControls({ helpOn })}
-                <DrawingControls helpOn={helpOn} />
-                <div className="app__mobile--group">
-                  <PaletteGridContainer />
-                </div>
-              </div>
-              <div className="app__mobile--container max-width-container">
-                <div className="app__mobile--group">
-                  {this.renderCopyCssButton({ helpOn })}
-                </div>
-                <div className="app__mobile--group">
-                  <div className="app__social-container">
-                    <div
-                      data-tooltip={
-                        helpOn
-                          ? 'Download your creation in different formats'
-                          : null
-                      }
-                    >
-                      <button
-                        type="button"
-                        aria-label="Download"
-                        className="app__download-button"
-                        onClick={() => {
-                          this.changeModalType('download');
-                        }}
-                      />
-                    </div>
-                    <div className="app__help-container">
-                      <div data-tooltip="Toggle help tooltips">
-                        <button
-                          type="button"
-                          aria-label="Help"
-                          className={`app__toggle-help-button
-                          ${helpOn ? ' selected' : ''}`}
-                          onClick={() => {
-                            this.toggleHelp();
-                          }}
-                        />
-                      </div>
-                      <div
-                        data-tooltip={helpOn ? 'Show keyboard shortcuts' : null}
-                      >
-                        <KeyBindings
-                          onClick={() => {
-                            this.changeModalType('keybindings');
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <LeftControls
+              helpOn={helpOn}
+              downloadClickFn={() => {
+                this.changeModalType('download');
+              }}
+              helpClickFn={() => {
+                this.toggleHelp();
+              }}
+              keyBindingsClickFn={() => {
+                this.changeModalType('keybindings');
+              }}
+              copyCssClickFn={() => {
+                this.changeModalType('copycss');
+              }}
+              isCssCopyButtonRendered={false}
+              loadClickFn={() => {
+                this.changeModalType('load');
+              }}
+              isIOControlsRendered={false}
+            />
           </div>
           <div className="center col-2-4">
             <PixelCanvasContainer
@@ -332,6 +296,101 @@ function DrawingControls({ helpOn }) {
           }
         >
           <MoveContainer />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LeftControls({
+  helpOn,
+  keyBindingsClickFn,
+  helpClickFn,
+  downloadClickFn,
+  copyCssClickFn,
+  isCssCopyButtonRendered,
+  loadClickFn,
+  isIOControlsRendered
+}) {
+  return (
+    <div className="app__left-side">
+      <div className="app__mobile--container max-width-container">
+        {isIOControlsRendered ? (
+          <IOControls helpOn={helpOn} loadClickFn={loadClickFn} />
+        ) : null}
+        <DrawingControls helpOn={helpOn} />
+        <div className="app__mobile--group">
+          <PaletteGridContainer />
+        </div>
+      </div>
+      <div className="app__mobile--container max-width-container">
+        <div className="app__mobile--group">
+          {isCssCopyButtonRendered ? (
+            <button
+              type="button"
+              className="app__copycss-button"
+              onClick={copyCssClickFn}
+              data-tooltip={helpOn ? 'Check your CSS generated code' : null}
+            >
+              css
+            </button>
+          ) : null}
+        </div>
+        <div className="app__mobile--group">
+          <div className="app__social-container">
+            <div
+              data-tooltip={
+                helpOn ? 'Download your creation in different formats' : null
+              }
+            >
+              <button
+                type="button"
+                aria-label="Download"
+                className="app__download-button"
+                onClick={downloadClickFn}
+              />
+            </div>
+            <div className="app__help-container">
+              <div data-tooltip="Toggle help tooltips">
+                <button
+                  type="button"
+                  aria-label="Help"
+                  className={`app__toggle-help-button
+                          ${helpOn ? ' selected' : ''}`}
+                  onClick={helpClickFn}
+                />
+              </div>
+              <div data-tooltip={helpOn ? 'Show keyboard shortcuts' : null}>
+                <KeyBindings onClick={keyBindingsClickFn} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function IOControls({ helpOn, loadClickFn }) {
+  return (
+    <div className="app__mobile--group">
+      <div data-tooltip={helpOn ? 'New project' : null}>
+        <NewProjectContainer />
+      </div>
+      <div data-tooltip={helpOn ? 'Mint art' : null}>
+        <MintDrawingContainer />
+      </div>
+      <div className="app__load-save-container">
+        <button
+          type="button"
+          className="app__load-button"
+          onClick={loadClickFn}
+          data-tooltip={helpOn ? 'Load projects you stored before' : null}
+        >
+          LOAD
+        </button>
+        <div data-tooltip={helpOn ? 'Save your project' : null}>
+          <SaveDrawingContainer />
         </div>
       </div>
     </div>
