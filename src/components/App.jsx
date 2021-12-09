@@ -360,14 +360,14 @@ function RightControls({ helpOn, previewClickFn, downloadClickFn }) {
             <div data-tooltip={helpOn ? 'Animation duration in seconds' : null}>
               <DurationContainer />
             </div>
+            <div data-tooltip={helpOn ? 'Undo (CTRL+Z) Redo (CTRL+Y)' : null}>
+              <UndoRedoContainer />
+            </div>
             <div
               data-tooltip={helpOn ? 'Reset the selected frame' : null}
               className="max-width-container-centered {"
             >
               <ResetContainer />
-            </div>
-            <div data-tooltip={helpOn ? 'Undo (CTRL+Z) Redo (CTRL+Y)' : null}>
-              <UndoRedoContainer />
             </div>
             <div
               data-tooltip={

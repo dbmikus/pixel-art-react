@@ -9,6 +9,7 @@ const IconButton = styled.button`
     -moz-osx-font-smoothing: grayscale;
 
     font-size: 1.8em;
+    cursor: pointer;
     text-align: center;
     color: ${props => (props.isSelected ? colors.silver : colors.mineShaft)};
     padding: 0.4em 0;
