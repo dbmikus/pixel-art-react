@@ -345,6 +345,21 @@ function RightControls({ helpOn, previewClickFn, downloadClickFn }) {
         <div className="app__mobile--container">
           <div className="app__mobile--group">
             <PreviewBox helpOn={helpOn} callback={previewClickFn} />
+            <CellsInfo />
+            <div
+              data-tooltip={helpOn ? 'Number of columns and rows' : null}
+              className="max-width-container-centered"
+            >
+              <DimensionsContainer />
+            </div>
+          </div>
+          <div className="app__mobile--group max-width-container-centered">
+            <div data-tooltip={helpOn ? 'Size of one tile in px' : null}>
+              <CellSizeContainer />
+            </div>
+            <div data-tooltip={helpOn ? 'Animation duration in seconds' : null}>
+              <DurationContainer />
+            </div>
             <div
               data-tooltip={helpOn ? 'Reset the selected frame' : null}
               className="max-width-container-centered {"
@@ -365,21 +380,6 @@ function RightControls({ helpOn, previewClickFn, downloadClickFn }) {
                 className="app__download-button"
                 onClick={downloadClickFn}
               />
-            </div>
-            <div
-              data-tooltip={helpOn ? 'Number of columns and rows' : null}
-              className="max-width-container-centered"
-            >
-              <DimensionsContainer />
-            </div>
-          </div>
-          <div className="app__mobile--group max-width-container-centered">
-            <div data-tooltip={helpOn ? 'Size of one tile in px' : null}>
-              <CellSizeContainer />
-            </div>
-            <div data-tooltip={helpOn ? 'Animation duration in seconds' : null}>
-              <DurationContainer />
-              <CellsInfo />
             </div>
           </div>
           <div data-tooltip={helpOn ? 'Mint art' : null}>
