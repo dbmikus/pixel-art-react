@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Picker from 'react-color';
 import { switchTool, setCustomColor } from '../store/actions/actionCreators';
 import { COLOR_PICKER, PENCIL } from '../store/reducers/drawingToolStates';
+import IconButton from './IconButton';
 
 const ColorPickerContainer = React.memo(() => {
   const colorPickerOn = useSelector(
@@ -52,11 +53,12 @@ const ColorPickerContainer = React.memo(() => {
 
   return (
     <div className="color-picker">
-      <button
+      <IconButton
         type="button"
         aria-label="Color Picker Tool"
-        className={`color-picker__button${colorPickerOn ? ' selected' : ''}`}
+        isSelected={colorPickerOn}
         onClick={handleClick}
+        content={'\\68'}
       />
       <div style={styles.picker}>
         {colorPickerOn ? (

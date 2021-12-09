@@ -103,31 +103,6 @@
     margin: 1em 0 0.6em;
     display: flex;
     flex-direction: column;
-
-    > div {
-      button {
-        font-size: 1.8em;
-        text-align: center;
-        color: $color-mineShaft;
-        padding: 0.4em 0;
-        width: 100%;
-        border: none;
-        background-color: transparent;
-
-        &:focus {
-          outline: 0;
-        }
-
-        &.selected {
-          color: $color-silver;
-          background-color: $color-mineShaft;
-
-          & > div {
-            background-color: $color-mineShaft;
-          }
-        }
-      }
-    }
   }
 
   .app__left-side {

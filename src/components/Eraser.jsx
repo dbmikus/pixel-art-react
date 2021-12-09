@@ -2,13 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { switchTool } from '../store/actions/actionCreators';
 import { ERASER } from '../store/reducers/drawingToolStates';
+import IconButton from './IconButton';
 
 const Eraser = ({ eraserOn, switchEraser }) => (
-  <button
+  <IconButton
     type="button"
     aria-label="Eraser Tool"
-    className={`eraser${eraserOn ? ' selected' : ''}`}
+    isSelected={eraserOn}
     onClick={switchEraser}
+    content={'\\65'}
   />
 );
 
