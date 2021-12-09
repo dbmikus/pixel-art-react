@@ -91,9 +91,6 @@ export default class App extends React.Component {
         <div data-tooltip={helpOn ? 'New project' : null}>
           <NewProjectContainer />
         </div>
-        <div data-tooltip={helpOn ? 'Mint art' : null}>
-          <MintDrawingContainer />
-        </div>
         <div className="app__load-save-container">
           <button
             type="button"
@@ -324,9 +321,6 @@ function IOControls({ helpOn, loadClickFn }) {
       <div data-tooltip={helpOn ? 'New project' : null}>
         <NewProjectContainer />
       </div>
-      <div data-tooltip={helpOn ? 'Mint art' : null}>
-        <MintDrawingContainer />
-      </div>
       <div className="app__load-save-container">
         <button
           type="button"
@@ -387,6 +381,9 @@ function RightControls({ helpOn, previewClickFn, downloadClickFn }) {
               <DurationContainer />
               <CellsInfo />
             </div>
+          </div>
+          <div data-tooltip={helpOn ? 'Mint art' : null}>
+            <MintDrawingContainer />
           </div>
         </div>
       </div>
