@@ -8,7 +8,7 @@ const IconButton = styled.button`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    font-size: 1.8em;
+    font-size: 1.5em;
     cursor: pointer;
     text-align: center;
     color: ${props => (props.isSelected ? colors.silver : colors.mineShaft)};

@@ -112,14 +112,14 @@
   }
 
   .app__left-wide {
-    margin-left: 2em;
+    margin-left: 1.5em;
   }
 
   .app__drawing-controls {
     /* background-color: #202225; */
     /* TODO(dbmikus) fix the color */
     background-color: #969eaa;
-    padding: 1em;
+    padding: 0.8em;
 
     & > * {
       margin: 1em 0;
