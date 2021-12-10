@@ -19,6 +19,7 @@ const UndoRedo = props => {
     <UndoRedoStyled>
       <Button
         type="button"
+        ariaLabel="undo"
         onClick={() => {
           undo();
         }}
@@ -27,6 +28,7 @@ const UndoRedo = props => {
       </Button>
       <Button
         type="button"
+        ariaLabel="redo"
         onClick={() => {
           redo();
         }}

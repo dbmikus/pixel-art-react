@@ -2,20 +2,24 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { resetGrid } from '../store/actions/actionCreators';
-import IconButton from './IconButton';
+import Button from './common/Button';
 
 const Reset = ({ resetGridDispatch }) => (
-  <ResetIconButton
+  <ResetButton
+    variant="action"
     type="button"
     onClick={resetGridDispatch}
-    aria-label="Reset painting"
-    content={'\\74'}
+    ariaLabel="Reset painting"
   />
 );
 
-const ResetIconButton = styled(IconButton)`
-  color: #ffffff;
-  background-color: #7c2828;
+const ResetButton = styled(Button)`
+  width: 100%;
+
+  &:before {
+    font: normal normal normal 14px/1 WebFontIcons;
+    content: '\\74';
+  }
 `;
 
 const mapDispatchToProps = dispatch => ({

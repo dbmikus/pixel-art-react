@@ -114,7 +114,8 @@ const Button = ({
   type,
   size,
   ariaLabel,
-  disabled = false
+  disabled = false,
+  className
 }) => (
   <ThemeProvider theme={{ mode: 'default' }}>
     {type === 'file' ? (
@@ -126,6 +127,7 @@ const Button = ({
       </>
     ) : (
       <ButtonStyled
+        className={className}
         variant={variant}
         onClick={onClick}
         size={size}
