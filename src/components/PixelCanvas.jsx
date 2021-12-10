@@ -37,6 +37,7 @@ class PixelCanvas extends React.Component {
     const cells = props.grid.map((color, i) => ({
       id: i,
       width: 100 / props.columns,
+      height: 100 / props.rows,
       color
     }));
     let gridExtraClass = 'cell';
@@ -55,6 +56,7 @@ class PixelCanvas extends React.Component {
         drawHandlers={this.drawHandlers}
         activeTool={props.drawingTool}
         nbrColumns={props.columns}
+        nbrRows={props.rows}
         hoveredCell={this.hoveredCell}
       />
     );
@@ -87,7 +89,7 @@ const mapDispatchToProps = dispatch => ({
   updateGridBoundariesThrottle: throttle(() => {
     const gridElement = document.getElementsByClassName(gridContainerClass)[0];
     if (!gridElement) {
-      // In certain scenarios, suchas navigating to a new pre-loaded page, the
+      // In certain scenarios, such as navigating to a new pre-loaded page, the
       // `gridContainerClass` value might not be set on any element in the DOM.
       // In such a case, short-circuit.
       return;

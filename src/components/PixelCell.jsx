@@ -1,4 +1,6 @@
 import React from 'react';
+import styled from 'styled-components';
+import { colors } from '../utils/color';
 
 const GRID_INITIAL_COLOR = 'rgba(49, 49, 49, 1)';
 
@@ -12,24 +14,29 @@ export default class PixelCell extends React.Component {
 
   render() {
     const {
-      cell: { color, width },
+      cell: { color, width, height },
       id,
       drawHandlers: { onMouseDown, onMouseOver }
     } = this.props;
-    const styles = {
-      width: `${width}%`,
-      paddingBottom: `${width}%`,
-      backgroundColor: color || GRID_INITIAL_COLOR
-    };
 
     return (
-      <div
+      <StyledPixelCell
         onMouseDown={ev => onMouseDown(id, ev)}
         onMouseOver={ev => onMouseOver(id, ev)}
         onFocus={ev => onMouseOver(id, ev)}
         onTouchStart={ev => onMouseDown(id, ev)}
-        style={styles}
+        dims={{ height, width }}
+        color={color}
       />
     );
   }
 }
+
+const StyledPixelCell = styled.div`
+  box-sizing: border-box;
+  background-color: ${props => props.color || GRID_INITIAL_COLOR};
+  flex-basis: ${props => props.dims.width}%;
+  height: ${props => props.dims.height}%;
+  border: 1px solid ${colors.scorpion};
+  border-width: 1px 0 0 1px;
+`;

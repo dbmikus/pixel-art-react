@@ -130,7 +130,8 @@ export const colors = {
   alto: '#e0e0e0',
   silveChalice: '#a0a0a0',
   nobel: '#b7b7b7',
-  shrub: '#0e8044'
+  shrub: '#0e8044',
+  scorpion: '#585858'
 
   // new colors
 };
