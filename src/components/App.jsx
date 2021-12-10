@@ -1,5 +1,6 @@
 import React from 'react';
 import CookieConsent from 'react-cookie-consent';
+import styled from 'styled-components';
 import PreviewBox from './PreviewBox';
 import PixelCanvasContainer from './PixelCanvas';
 import CellSizeContainer from './CellSize';
@@ -156,12 +157,12 @@ export default class App extends React.Component {
             }}
             isIOControlsRendered={false}
           />
-          <div className="center col-2-4">
+          <div>
             <PixelCanvasContainer
               drawHandlersFactory={this.drawHandlersFactory}
             />
           </div>
-          <RightControls
+          <StyledRightControls
             helpOn={helpOn}
             downloadClickFn={() => {
               this.changeModalType('download');
@@ -231,45 +232,43 @@ function LeftControls({
   isIOControlsRendered
 }) {
   return (
-    <div>
-      <div className="app__left-side">
-        <div className="app__mobile--container max-width-container">
-          {isIOControlsRendered ? (
-            <IOControls helpOn={helpOn} loadClickFn={loadClickFn} />
-          ) : null}
-          <DrawingControls helpOn={helpOn} />
+    <div className="app__left-side">
+      <div className="app__mobile--container max-width-container">
+        {isIOControlsRendered ? (
+          <IOControls helpOn={helpOn} loadClickFn={loadClickFn} />
+        ) : null}
+        <DrawingControls helpOn={helpOn} />
+      </div>
+      <div className="app__left-wide app__mobile--container max-width-container">
+        <div className="app__mobile--group">
+          <PaletteGridContainer />
         </div>
-        <div className="app__left-wide app__mobile--container max-width-container">
-          <div className="app__mobile--group">
-            <PaletteGridContainer />
-          </div>
-          <div className="app__mobile--group">
-            {isCssCopyButtonRendered ? (
-              <button
-                type="button"
-                className="app__copycss-button"
-                onClick={copyCssClickFn}
-                data-tooltip={helpOn ? 'Check your CSS generated code' : null}
-              >
-                css
-              </button>
-            ) : null}
-          </div>
-          <div className="app__mobile--group">
-            <div className="app__social-container">
-              <div className="app__help-container">
-                <div data-tooltip="Toggle help tooltips">
-                  <button
-                    type="button"
-                    aria-label="Help"
-                    className={`app__toggle-help-button
+        <div className="app__mobile--group">
+          {isCssCopyButtonRendered ? (
+            <button
+              type="button"
+              className="app__copycss-button"
+              onClick={copyCssClickFn}
+              data-tooltip={helpOn ? 'Check your CSS generated code' : null}
+            >
+              css
+            </button>
+          ) : null}
+        </div>
+        <div className="app__mobile--group">
+          <div className="app__social-container">
+            <div className="app__help-container">
+              <div data-tooltip="Toggle help tooltips">
+                <button
+                  type="button"
+                  aria-label="Help"
+                  className={`app__toggle-help-button
                           ${helpOn ? ' selected' : ''}`}
-                    onClick={helpClickFn}
-                  />
-                </div>
-                <div data-tooltip={helpOn ? 'Show keyboard shortcuts' : null}>
-                  <KeyBindings onClick={keyBindingsClickFn} />
-                </div>
+                  onClick={helpClickFn}
+                />
+              </div>
+              <div data-tooltip={helpOn ? 'Show keyboard shortcuts' : null}>
+                <KeyBindings onClick={keyBindingsClickFn} />
               </div>
             </div>
           </div>
@@ -338,55 +337,86 @@ function IOControls({ helpOn, loadClickFn }) {
   );
 }
 
-function RightControls({ helpOn, previewClickFn, downloadClickFn }) {
+function RightControls({ className, helpOn, previewClickFn, downloadClickFn }) {
   return (
-    <div>
-      <div className="app__right-side">
-        <div className="app__mobile--container">
-          <div className="app__mobile--group">
-            <PreviewBox helpOn={helpOn} callback={previewClickFn} />
-            <CellsInfo />
-            <div
-              data-tooltip={helpOn ? 'Number of columns and rows' : null}
-              className="max-width-container-centered"
-            >
-              <DimensionsContainer />
-            </div>
-          </div>
-          <div className="app__mobile--group max-width-container-centered">
-            <div data-tooltip={helpOn ? 'Size of one tile in px' : null}>
-              <CellSizeContainer />
-            </div>
-            <div data-tooltip={helpOn ? 'Animation duration in seconds' : null}>
-              <DurationContainer />
-            </div>
-            <div data-tooltip={helpOn ? 'Undo (CTRL+Z) Redo (CTRL+Y)' : null}>
-              <UndoRedoContainer />
-            </div>
-            <div
-              data-tooltip={helpOn ? 'Reset the selected frame' : null}
-              className="max-width-container-centered {"
-            >
-              <ResetContainer />
-            </div>
-            <div
-              data-tooltip={
-                helpOn ? 'Download your creation in different formats' : null
-              }
-            >
-              <button
-                type="button"
-                aria-label="Download"
-                className="app__download-button"
-                onClick={downloadClickFn}
-              />
-            </div>
-          </div>
-          <div data-tooltip={helpOn ? 'Mint art' : null}>
-            <MintDrawingContainer />
-          </div>
+    <div className={`app__right-side ${className}`}>
+      <RightControlsInnerContainer>
+        <StyledRightControlsMain
+          {...{ helpOn, previewClickFn, downloadClickFn }}
+        />
+        <div data-tooltip={helpOn ? 'Mint art' : null}>
+          <MintDrawingContainer />
+        </div>
+      </RightControlsInnerContainer>
+    </div>
+  );
+}
+
+const StyledRightControls = styled(RightControls)`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
+
+const RightControlsInnerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+function RightControlsMain({
+  className,
+  helpOn,
+  previewClickFn,
+  downloadClickFn
+}) {
+  return (
+    <div className={`app__mobile--container ${className}`}>
+      <div className="app__mobile--group">
+        <PreviewBox helpOn={helpOn} callback={previewClickFn} />
+        <CellsInfo />
+        <div
+          data-tooltip={helpOn ? 'Number of columns and rows' : null}
+          className="max-width-container-centered"
+        >
+          <DimensionsContainer />
+        </div>
+      </div>
+      <div className="app__mobile--group max-width-container-centered">
+        <div data-tooltip={helpOn ? 'Size of one tile in px' : null}>
+          <CellSizeContainer />
+        </div>
+        <div data-tooltip={helpOn ? 'Animation duration in seconds' : null}>
+          <DurationContainer />
+        </div>
+        <div data-tooltip={helpOn ? 'Undo (CTRL+Z) Redo (CTRL+Y)' : null}>
+          <UndoRedoContainer />
+        </div>
+        <div
+          data-tooltip={helpOn ? 'Reset the selected frame' : null}
+          className="max-width-container-centered"
+        >
+          <ResetContainer />
+        </div>
+        <div
+          data-tooltip={
+            helpOn ? 'Download your creation in different formats' : null
+          }
+        >
+          <button
+            type="button"
+            aria-label="Download"
+            className="app__download-button"
+            onClick={downloadClickFn}
+          />
         </div>
       </div>
     </div>
   );
 }
+
+const StyledRightControlsMain = styled(RightControlsMain)`
+  max-width: 20em;
+  padding: 4em;
+  background-color: green;
+  margin-bottom: 1em;
+`;
