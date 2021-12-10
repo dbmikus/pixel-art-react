@@ -1,6 +1,5 @@
 .pixel-art-react-container.app {
-  .app__main-container,
-  .app__central-container {
+  .app__main-container {
     lost-utility: clearfix;
   }
 
@@ -14,11 +13,11 @@
 
     & > * {
       flex-grow: 1;
+      margin-bottom: 2em;
     }
   }
 
-  .app__main,
-  .app__central-container {
+  .app__main {
     margin-bottom: 2em;
   }
 
@@ -97,18 +96,6 @@
     width: 100%;
     margin: 0 0 0.6em;
     display: table;
-  }
-
-  .app__tools-wrapper {
-    text-align: center;
-    margin: 1em 0 0.6em;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .app__left-side {
-    display: flex;
-    flex-direction: row;
   }
 
   .app__left-wide {

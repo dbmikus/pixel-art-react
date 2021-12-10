@@ -39,6 +39,10 @@ const StyledPixelGrid = styled(PixelGrid)`
 
   height: ${cssHeight};
   width: calc(${props => props.nbrColumns / props.nbrRows} * ${cssHeight});
+  // TODO(dbmikus) [#10] This is a hack to prevent the grid from horizontally
+  // overflowing on mobile. However, it slightly compresses the pixels so they
+  // are not square.
+  max-width: 95%;
 `;
 
 export default StyledPixelGrid;

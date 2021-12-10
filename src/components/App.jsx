@@ -139,7 +139,7 @@ export default class App extends React.Component {
         >
           <FramesHandlerContainer />
         </div>
-        <div className="app__central-container">
+        <StyledCentralContainer>
           <LeftControls
             helpOn={helpOn}
             helpClickFn={() => {
@@ -157,11 +157,11 @@ export default class App extends React.Component {
             }}
             isIOControlsRendered={false}
           />
-          <div>
+          <PixelCanvasWrapper>
             <PixelCanvasContainer
               drawHandlersFactory={this.drawHandlersFactory}
             />
-          </div>
+          </PixelCanvasWrapper>
           <StyledRightControls
             helpOn={helpOn}
             downloadClickFn={() => {
@@ -171,7 +171,7 @@ export default class App extends React.Component {
               this.changeModalType('preview');
             }}
           />
-        </div>
+        </StyledCentralContainer>
         <div className="css-container">
           <CssDisplayContainer />
         </div>
@@ -222,6 +222,24 @@ export default class App extends React.Component {
   }
 }
 
+const StyledCentralContainer = styled.div`
+  padding: 2rem 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  & > * {
+    flex-grow: 1;
+    margin-bottom: 2em;
+  }
+
+  @media only screen and (max-width: 740px) {
+    flex-direction: column;
+  }
+`;
+
 function LeftControls({
   helpOn,
   keyBindingsClickFn,
@@ -232,12 +250,12 @@ function LeftControls({
   isIOControlsRendered
 }) {
   return (
-    <div className="app__left-side">
+    <StyledLeftControls>
       <div className="app__mobile--container max-width-container">
         {isIOControlsRendered ? (
           <IOControls helpOn={helpOn} loadClickFn={loadClickFn} />
         ) : null}
-        <DrawingControls helpOn={helpOn} />
+        <StyledDrawingControls helpOn={helpOn} />
       </div>
       <div className="app__left-wide app__mobile--container max-width-container">
         <div className="app__mobile--group">
@@ -274,13 +292,22 @@ function LeftControls({
           </div>
         </div>
       </div>
-    </div>
+    </StyledLeftControls>
   );
 }
 
-function DrawingControls({ helpOn }) {
+const StyledLeftControls = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  @media only screen and (max-width: 740px) {
+    flex-direction: column;
+  }
+`;
+
+function DrawingControls({ helpOn, className }) {
   return (
-    <div className="app__tools-wrapper app__mobile--group app__drawing-controls">
+    <div className={`${className} app__mobile--group app__drawing-controls`}>
       <div
         data-tooltip={
           helpOn
@@ -314,6 +341,17 @@ function DrawingControls({ helpOn }) {
   );
 }
 
+const StyledDrawingControls = styled(DrawingControls)`
+  text-align: center;
+  margin: 1em 0 0.6em;
+  display: flex;
+  flex-direction: column;
+
+  @media only screen and (max-width: 740px) {
+    flex-direction: row;
+  }
+`;
+
 function IOControls({ helpOn, loadClickFn }) {
   return (
     <div className="app__mobile--group">
@@ -336,6 +374,12 @@ function IOControls({ helpOn, loadClickFn }) {
     </div>
   );
 }
+
+const PixelCanvasWrapper = styled.div`
+  @media only screen and (max-width: 1050px) {
+    min-width: 50%;
+  }
+`;
 
 function RightControls({ className, helpOn, previewClickFn, downloadClickFn }) {
   return (
@@ -361,6 +405,15 @@ const StyledRightControls = styled(RightControls)`
 const RightControlsInnerContainer = styled.div`
   display: flex;
   flex-direction: column;
+
+  // @media only screen and (max-width: 1050px) {
+  //   flex-direction: row;
+  //   align-items: center;
+
+  //   & > *:first-child {
+  //     margin-right: 1.5em;
+  //   }
+  // }
 `;
 
 function RightControlsMain({
@@ -381,7 +434,8 @@ function RightControlsMain({
           <DimensionsContainer />
         </div>
       </div>
-      <div className="app__mobile--group max-width-container-centered">
+      {/* <div className="app__mobile--group max-width-container-centered"> */}
+      <div className="app__mobile--group">
         <div data-tooltip={helpOn ? 'Size of one tile in px' : null}>
           <CellSizeContainer />
         </div>
@@ -419,4 +473,18 @@ const StyledRightControlsMain = styled(RightControlsMain)`
   padding: 4em;
   background-color: green;
   margin-bottom: 1em;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media only screen and (max-width: 1050px) {
+    flex-direction: row;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+  }
+
+  @media only screen and (max-width: 415px) {
+    flex-direction: column;
+  }
 `;
