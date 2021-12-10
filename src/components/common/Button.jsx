@@ -44,14 +44,14 @@ const ButtonCSS = css`
   background: none;
   border: none;
   outline: none;
-  border-radius: 2px;
+  border-radius: 10px;
   padding: 10px;
   font-size: 1em;
   text-decoration: none;
   transition-duration: 0.1s;
   color: ${textColor};
   background-color: ${bgColor};
-  box-shadow: 0 5px 0 0 ${boxShadowColor};
+  box-shadow: 3px 3px 0 0 ${boxShadowColor};
   margin: 0 auto;
   &:hover,
   &.selected {
