@@ -56,8 +56,7 @@ const Preview = props => {
   const style = {
     width: columns * cellSize,
     height: rows * cellSize,
-    position: 'relative',
-    backgroundColor: 'rgba(51, 50, 50, 0.2)'
+    position: 'relative'
   };
 
   return (

@@ -97,7 +97,9 @@ export default class Frame extends React.Component {
                 }}
                 disabled={lastFrame || !active}
               />
-            ) : null}
+            ) : (
+              <span className="frame__percentage">{dataId + 1}</span>
+            )}
           </div>
         )}
       </Draggable>

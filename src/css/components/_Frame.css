@@ -37,10 +37,20 @@
     }
 
     .frame__percentage {
+      appearance: none;
+      box-shadow: none;
+      border-radius: none;
+      text-align: center;
+      font-size: 1em;
+      color: #bbb;
+      width: 100%;
+      background-color: #4b4949;
+      transition: background-color 0.3s;
       position: absolute;
       bottom: 0;
       left: 0;
       height: 23px;
+      border: none;
       border-top: 2px solid $color-tundora;
     }
 
