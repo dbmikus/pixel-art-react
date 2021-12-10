@@ -44,7 +44,6 @@
     }
 
     /* Avoid button hover effect in mobile devices */
-    .undo-redo,
     .app__load-save-container,
     .new-project,
     .frames-handler,
