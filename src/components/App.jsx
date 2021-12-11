@@ -126,8 +126,7 @@ export default class App extends React.Component {
           fadeOutTime={1500}
           duration={1500}
         />
-        <div
-          className="app__frames-container"
+        <StyledAppFramesContainer
           data-tooltip={
             helpOn
               ? `Create an awesome animation sequence.
@@ -138,7 +137,7 @@ export default class App extends React.Component {
           }
         >
           <FramesHandlerContainer />
-        </div>
+        </StyledAppFramesContainer>
         <StyledCentralContainer>
           <LeftControls
             helpOn={helpOn}
@@ -222,6 +221,31 @@ export default class App extends React.Component {
   }
 }
 
+const StyledAppFramesContainer = styled.div`
+  margin-bottom: 1em;
+
+  &[data-tooltip]:after {
+    width: 80%;
+    margin-left: -40%;
+  }
+
+  @media only screen and (min-width: 730px) {
+    /*
+    Fix small vertical scrollbar glitch for some resolutions
+    inside frames-handler
+    Detected in Chrome
+    */
+    &:-webkit-scrollbar,
+    & div::-webkit-scrollbar {
+      width: 1em !important;
+    }
+  }
+
+  @media only screen and (max-width: 740px) {
+    margin-bottom: 0;
+  }
+`;
+
 const StyledCentralContainer = styled.div`
   padding: 2rem 0;
 
@@ -237,6 +261,7 @@ const StyledCentralContainer = styled.div`
 
   @media only screen and (max-width: 740px) {
     flex-direction: column;
+    padding-top: 0;
   }
 `;
 
@@ -251,13 +276,15 @@ function LeftControls({
 }) {
   return (
     <StyledLeftControls>
-      <div className="app__mobile--container max-width-container">
+      {/* <div className="app__mobile--container max-width-container"> */}
+      <div className="app__mobile--container">
         {isIOControlsRendered ? (
           <IOControls helpOn={helpOn} loadClickFn={loadClickFn} />
         ) : null}
         <StyledDrawingControls helpOn={helpOn} />
       </div>
-      <div className="app__left-wide app__mobile--container max-width-container">
+      {/* <LeftSecondControls className="app__left-wide app__mobile--container max-width-container"> */}
+      <LeftSecondControls>
         <div className="app__mobile--group">
           <PaletteGridContainer />
         </div>
@@ -291,7 +318,7 @@ function LeftControls({
             </div>
           </div>
         </div>
-      </div>
+      </LeftSecondControls>
     </StyledLeftControls>
   );
 }
@@ -305,9 +332,19 @@ const StyledLeftControls = styled.div`
   }
 `;
 
+const LeftSecondControls = styled.div`
+  max-width: 12em;
+  margin-left: 1.5em;
+
+  @media only screen and (max-width: 740px) {
+    margin: auto;
+  }
+`;
+
 function DrawingControls({ helpOn, className }) {
   return (
-    <div className={`${className} app__mobile--group app__drawing-controls`}>
+    // <div className={`${className} app__mobile--group app__drawing-controls`}>
+    <div className={`${className} app__mobile--group`}>
       <div
         data-tooltip={
           helpOn
@@ -346,9 +383,24 @@ const StyledDrawingControls = styled(DrawingControls)`
   margin: 1em 0 0.6em;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+
+  /* background-color: #202225; */
+  /* TODO(dbmikus) fix the color */
+  background-color: #969eaa;
+  padding: 0.8em;
+
+  & > * {
+    margin: 1em 0;
+  }
 
   @media only screen and (max-width: 740px) {
+    margin-top: 0;
     flex-direction: row;
+
+    & > * {
+      margin: 0;
+    }
   }
 `;
 
@@ -376,6 +428,14 @@ function IOControls({ helpOn, loadClickFn }) {
 }
 
 const PixelCanvasWrapper = styled.div`
+  // TODO(dbmikus) [#10] This is a hack to prevent the grid from horizontally
+  // overflowing on mobile. However, it slightly compresses the pixels so they
+  // are not square.
+  max-width: 95%;
+
+  margin-left: auto;
+  margin-right: auto;
+
   @media only screen and (max-width: 1050px) {
     min-width: 50%;
   }

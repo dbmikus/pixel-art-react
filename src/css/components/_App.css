@@ -21,15 +21,6 @@
     margin-bottom: 2em;
   }
 
-  .app__frames-container {
-    margin-bottom: 1em;
-  }
-
-  .app__frames-container[data-tooltip]::after {
-    width: 80%;
-    margin-left: -40%;
-  }
-
   .app__load-save-container {
     margin-bottom: 2em;
 
@@ -100,16 +91,5 @@
 
   .app__left-wide {
     margin-left: 1.5em;
-  }
-
-  .app__drawing-controls {
-    /* background-color: #202225; */
-    /* TODO(dbmikus) fix the color */
-    background-color: #969eaa;
-    padding: 0.8em;
-
-    & > * {
-      margin: 1em 0;
-    }
   }
 }

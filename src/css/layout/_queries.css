@@ -8,31 +8,9 @@
     }
   }
 
-  @media only screen and (min-width: 730px) {
-    /*
-    Fix small vertical scrollbar glitch for some resolutions
-    inside frames-handler
-    Detected in Chrome
-  */
-    .app__frames-container::-webkit-scrollbar,
-    .app__frames-container div::-webkit-scrollbar {
-      width: 1em !important;
-    }
-  }
-
   @media only screen and (max-width: 730px) {
     .app__copycss-button {
       margin-top: 1.4em !important;
-    }
-
-    .app__mobile--container {
-      lost-utility: clearfix;
-
-      .app__mobile--group {
-        lost-column: 1/2;
-      }
-
-      max-width: none;
     }
 
     .app__preview-button {
