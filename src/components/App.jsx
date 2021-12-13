@@ -5,16 +5,12 @@ import Button from './common/Button';
 import PreviewBox from './PreviewBox';
 import PixelCanvasContainer from './PixelCanvas';
 import CellSizeContainer from './CellSize';
-import ColorPickerContainer from './ColorPicker';
 import ModalContainer from './Modal';
+import DrawingControls from './DrawingControls';
 import DimensionsContainer from './Dimensions';
 import KeyBindings from './KeyBindings';
 import CssDisplayContainer from './CssDisplay';
 import DurationContainer from './Duration';
-import EraserContainer from './Eraser';
-import BucketContainer from './Bucket';
-import MoveContainer from './Move';
-import EyedropperContainer from './Eyedropper';
 import FramesHandlerContainer from './FramesHandler';
 import PaletteGridContainer from './PaletteGrid';
 import ResetContainer from './Reset';
@@ -284,14 +280,12 @@ function LeftControls({
 }) {
   return (
     <StyledLeftControls>
-      {/* <div className="app__mobile--container max-width-container"> */}
       <div className="app__mobile--container">
         {isIOControlsRendered ? (
           <IOControls helpOn={helpOn} loadClickFn={loadClickFn} />
         ) : null}
-        <StyledDrawingControls helpOn={helpOn} />
+        <DrawingControls helpOn={helpOn} />
       </div>
-      {/* <LeftSecondControls className="app__left-wide app__mobile--container max-width-container"> */}
       <LeftSecondControls>
         <div className="app__mobile--group">
           <PaletteGridContainer />
@@ -346,54 +340,6 @@ const LeftSecondControls = styled.div`
 
   @media only screen and (max-width: 740px) {
     margin: auto;
-  }
-`;
-
-function DrawingControls({ helpOn, className }) {
-  return (
-    <div className={`${className} app__mobile--group`}>
-      <BucketContainer
-        helpOn={helpOn}
-        helpTooltip="It fills an area of the current frame based on color similarity (B)"
-      />
-      <EyedropperContainer
-        helpOn={helpOn}
-        helpTooltip="Sample a color from your drawing (O)"
-      />
-      <ColorPickerContainer
-        helpOn={helpOn}
-        helpTooltip="Choose a new color that is not in your palette (P)"
-      />
-      <EraserContainer helpOn={helpOn} helpTooltip="Remove colors (E)" />
-      <MoveContainer
-        helpOn={helpOn}
-        helpTooltip="Move your drawing around the canvas (M)"
-      />
-    </div>
-  );
-}
-
-const StyledDrawingControls = styled(DrawingControls)`
-  text-align: center;
-  margin: 1em 0 0.6em;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-
-  background-color: ${colors.darkBg0};
-  padding: 0.8em;
-
-  & > * {
-    margin: 1em 0;
-  }
-
-  @media only screen and (max-width: 740px) {
-    margin-top: 0;
-    flex-direction: row;
-
-    & > * {
-      margin: 0;
-    }
   }
 `;
 
