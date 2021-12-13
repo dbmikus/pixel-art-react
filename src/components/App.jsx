@@ -1,6 +1,7 @@
 import React from 'react';
 import CookieConsent from 'react-cookie-consent';
 import styled from 'styled-components';
+import Button from './common/Button';
 import PreviewBox from './PreviewBox';
 import PixelCanvasContainer from './PixelCanvas';
 import CellSizeContainer from './CellSize';
@@ -26,10 +27,11 @@ import CellsInfo from './CellsInfo';
 import UndoRedoContainer from './UndoRedo';
 import initialSetup from '../utils/startup';
 import drawHandlersProvider from '../utils/drawHandlersProvider';
+import { colors } from '../utils/color';
 
-export default class App extends React.Component {
-  constructor() {
-    super();
+class App extends React.Component {
+  constructor(props) {
+    super(props);
     this.state = {
       modalType: null,
       modalOpen: false,
@@ -113,9 +115,10 @@ export default class App extends React.Component {
 
   render() {
     const { helpOn, modalType, modalOpen } = this.state;
+    const { className } = this.props;
     return (
       <div
-        className="pixel-art-react-container app app__main"
+        className={`${className} pixel-art-react-container app app__main`}
         onMouseUp={this.onMouseUp}
         onTouchEnd={this.onMouseUp}
         onTouchCancel={this.onMouseUp}
@@ -220,6 +223,11 @@ export default class App extends React.Component {
     );
   }
 }
+
+const StyledApp = styled(App)`
+  background-color: ${colors.darkBg1};
+`;
+export default StyledApp;
 
 const StyledAppFramesContainer = styled.div`
   margin-bottom: 1em;
@@ -516,9 +524,9 @@ function RightControlsMain({
             helpOn ? 'Download your creation in different formats' : null
           }
         >
-          <button
+          <Button
             type="button"
-            aria-label="Download"
+            ariaLabel="Download"
             className="app__download-button"
             onClick={downloadClickFn}
           />
@@ -531,7 +539,7 @@ function RightControlsMain({
 const StyledRightControlsMain = styled(RightControlsMain)`
   max-width: 20em;
   padding: 4em;
-  background-color: green;
+  background-color: ${colors.darkBg0};
   margin-bottom: 1em;
 
   display: flex;

@@ -43,6 +43,8 @@ const StyledPixelGrid = styled(PixelGrid)`
   // overflowing on mobile. However, it slightly compresses the pixels so they
   // are not square.
   max-width: 100%;
+
+  border: solid 2px white;
 `;
 
 export default StyledPixelGrid;

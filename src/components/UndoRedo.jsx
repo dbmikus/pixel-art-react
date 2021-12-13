@@ -48,6 +48,7 @@ const UndoRedoStyled = styled.div`
   button {
     width: calc(99.9% * 1 / 2 - (0.5em - 0.5em * 1 / 2));
     margin-right: 0.5em;
+    background-color: ${colors.purple};
 
     &:last-child {
       margin-right: 0;
@@ -56,11 +57,9 @@ const UndoRedoStyled = styled.div`
     font-size: 1.2em;
   }
 
-  @media only screen and (max-width: 730px) {
-    & button:hover,
-    & button.selected {
-      background-color: ${colors.mineShaft} !important;
-    }
+  & button:hover,
+  & button.selected {
+    background-color: ${colors.darkPurple} !important;
   }
 `;
 

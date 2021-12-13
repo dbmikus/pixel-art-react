@@ -8,13 +8,6 @@
       }
     }
 
-    & .preview-box__container {
-      @mixin flex-row-center;
-      padding: 0.8em 0 0.8em 0;
-      margin: 0.8em 0;
-      align-items: center;
-    }
-
     .play {
       @mixin button gray;
       @mixin icon play;

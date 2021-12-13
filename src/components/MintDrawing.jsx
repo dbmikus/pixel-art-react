@@ -1,10 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import styled from 'styled-components';
 import shortid from 'shortid';
 import { useEthContext } from '../contexts/ethContext';
 import * as actionCreators from '../store/actions/actionCreators';
+import Button from './common/Button';
 import Grid from '../utils/grid';
+import { colors } from '../utils/color';
 
 const MintDrawing = props => {
   const { mintFn } = useEthContext();
@@ -37,13 +40,26 @@ const MintDrawing = props => {
   };
 
   return (
-    <div className="mint-drawing">
-      <button type="button" onClick={mint}>
-        MINT
-      </button>
+    <div>
+      <MintButton type="button" ariaLabel="Mint Pixly" onClick={mint}>
+        MINT PIXLY!
+      </MintButton>
     </div>
   );
 };
+
+const MintButton = styled(Button)`
+  background-color: ${colors.purple};
+
+  width: 100%;
+  padding: 0.5em;
+  margin-bottom: 0.6em;
+
+  &:hover,
+  &.selected {
+    background-color: ${colors.darkPurple} !important;
+  }
+`;
 
 const mapStateToProps = state => {
   const frames = state.present.get('frames');

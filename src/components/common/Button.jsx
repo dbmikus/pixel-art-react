@@ -5,12 +5,19 @@ import theme from 'styled-theming';
 import { colors } from '../../utils/color';
 
 const textColor = theme.variants('mode', 'variant', {
-  default: { default: colors.silver },
-  action: { default: colors.silver },
-  close: { default: colors.silver },
-  info: { default: colors.silver },
+  // default: { default: colors.silver },
+  // action: { default: colors.silver },
+  // close: { default: colors.silver },
+  // info: { default: colors.silver },
+  // white: { default: 'black' },
+  // proceed: { default: colors.silver },
+
+  default: { default: 'white' },
+  action: { default: 'white' },
+  close: { default: 'white' },
+  info: { default: 'white' },
   white: { default: 'black' },
-  proceed: { default: colors.silver }
+  proceed: { default: 'white' }
 });
 
 const bgColor = theme.variants('mode', 'variant', {

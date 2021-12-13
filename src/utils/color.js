@@ -131,9 +131,16 @@ export const colors = {
   silveChalice: '#a0a0a0',
   nobel: '#b7b7b7',
   shrub: '#0e8044',
-  scorpion: '#585858'
+  scorpion: '#585858',
 
   // new colors
+  darkBg0: '#202225',
+  darkBg1: '#36393F',
+  lightGray: '#B9BBBE',
+  purple: '#5865F2',
+  darkPurple: '#3943b5',
+  darkGreen: '#3BA55D',
+  darkRed: '#7C2828'
 };
 
 export default formatPixelColorOutput;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 import Preview from './Preview';
 
 const PreviewBox = props => {
@@ -36,7 +37,7 @@ const PreviewBox = props => {
           helpOn={helpOn}
         />
       ) : null}
-      <div className="preview-box__container">
+      <PreviewBoxContainer>
         <Preview
           frames={frameList}
           columns={columns}
@@ -47,10 +48,21 @@ const PreviewBox = props => {
           animate={animate}
           animationName="wip-animation"
         />
-      </div>
+      </PreviewBoxContainer>
     </div>
   );
 };
+
+const PreviewBoxContainer = styled.div`
+  // padding: 0.8em 0 0.8em 0;
+  margin: 0.8em 0;
+  border: solid 1px white;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+`;
 
 function FrameControls({
   animTooltip,
