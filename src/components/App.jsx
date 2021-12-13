@@ -351,7 +351,6 @@ const LeftSecondControls = styled.div`
 
 function DrawingControls({ helpOn, className }) {
   return (
-    // <div className={`${className} app__mobile--group app__drawing-controls`}>
     <div className={`${className} app__mobile--group`}>
       <div
         data-tooltip={
@@ -393,9 +392,7 @@ const StyledDrawingControls = styled(DrawingControls)`
   flex-direction: column;
   justify-content: space-around;
 
-  /* background-color: #202225; */
-  /* TODO(dbmikus) fix the color */
-  background-color: #969eaa;
+  background-color: ${colors.darkBg0};
   padding: 0.8em;
 
   & > * {

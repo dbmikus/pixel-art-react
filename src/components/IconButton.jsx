@@ -11,12 +11,13 @@ const IconButton = styled.button`
     font-size: 1.5em;
     cursor: pointer;
     text-align: center;
-    color: ${props => (props.isSelected ? colors.silver : colors.mineShaft)};
+    color: ${props => (props.isSelected ? 'white' : colors.silver)};
     padding: 0.4em 0;
     width: 100%;
     border: none;
-    background-color: ${props =>
+    // background-color: ${props =>
       props.isSelected ? colors.mineShaft : 'transparent'};
+    background-color: ${colors.darkBg0};
 
     &:focus {
         outline: 0;
