@@ -352,35 +352,23 @@ const LeftSecondControls = styled.div`
 function DrawingControls({ helpOn, className }) {
   return (
     <div className={`${className} app__mobile--group`}>
-      <div
-        data-tooltip={
-          helpOn
-            ? 'It fills an area of the current frame based on color similarity (B)'
-            : null
-        }
-      >
-        <BucketContainer />
-      </div>
-      <div
-        data-tooltip={helpOn ? 'Sample a color from your drawing (O)' : null}
-      >
-        <EyedropperContainer />
-      </div>
-      <div
-        data-tooltip={
-          helpOn ? 'Choose a new color that is not in your palette (P)' : null
-        }
-      >
-        <ColorPickerContainer />
-      </div>
-      <div data-tooltip={helpOn ? 'Remove colors (E)' : null}>
-        <EraserContainer />
-      </div>
-      <div
-        data-tooltip={helpOn ? 'Move your drawing around the canvas (M)' : null}
-      >
-        <MoveContainer />
-      </div>
+      <BucketContainer
+        helpOn={helpOn}
+        helpTooltip="It fills an area of the current frame based on color similarity (B)"
+      />
+      <EyedropperContainer
+        helpOn={helpOn}
+        helpTooltip="Sample a color from your drawing (O)"
+      />
+      <ColorPickerContainer
+        helpOn={helpOn}
+        helpTooltip="Choose a new color that is not in your palette (P)"
+      />
+      <EraserContainer helpOn={helpOn} helpTooltip="Remove colors (E)" />
+      <MoveContainer
+        helpOn={helpOn}
+        helpTooltip="Move your drawing around the canvas (M)"
+      />
     </div>
   );
 }

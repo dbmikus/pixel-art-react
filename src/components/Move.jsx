@@ -4,13 +4,15 @@ import { switchTool } from '../store/actions/actionCreators';
 import { MOVE } from '../store/reducers/drawingToolStates';
 import IconButton from './IconButton';
 
-const Move = ({ moveOn, switchMove }) => (
+const Move = ({ helpOn, helpTooltip, moveOn, switchMove }) => (
   <IconButton
     type="button"
     aria-label="Move Tool"
     isSelected={moveOn}
     onClick={switchMove}
     content={'\\69'}
+    helpOn={helpOn}
+    helpTooltip={helpTooltip}
   />
 );
 

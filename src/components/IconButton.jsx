@@ -1,7 +1,33 @@
+import React from 'react';
 import styled from 'styled-components';
 import { colors } from '../utils/color';
 
-const IconButton = styled.button`
+function IconButton({
+  helpOn,
+  helpTooltip,
+  isSelected,
+  ariaLabel,
+  onClick,
+  content
+}) {
+  return (
+    <ButtonWrapper
+      isSelected={isSelected}
+      data-tooltip={helpOn ? helpTooltip : null}
+    >
+      <InnerButton
+        isSelected={isSelected}
+        aria-label={ariaLabel}
+        onClick={onClick}
+        content={content}
+      />
+    </ButtonWrapper>
+  );
+}
+
+const ButtonWrapper = styled.div``;
+
+const InnerButton = styled.button`
     display: inline-block;
     font: normal normal normal 14px/1 WebFontIcons;
     text-rendering: auto;
@@ -21,6 +47,10 @@ const IconButton = styled.button`
 
     &:focus {
         outline: 0;
+    }
+
+    &:hover {
+        cursor: pointer;
     }
 
     &:before {

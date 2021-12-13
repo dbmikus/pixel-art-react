@@ -4,13 +4,15 @@ import { switchTool } from '../store/actions/actionCreators';
 import { ERASER } from '../store/reducers/drawingToolStates';
 import IconButton from './IconButton';
 
-const Eraser = ({ eraserOn, switchEraser }) => (
+const Eraser = ({ helpOn, helpTooltip, eraserOn, switchEraser }) => (
   <IconButton
     type="button"
     aria-label="Eraser Tool"
     isSelected={eraserOn}
     onClick={switchEraser}
     content={'\\65'}
+    helpOn={helpOn}
+    helpTooltip={helpTooltip}
   />
 );
 

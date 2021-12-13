@@ -4,13 +4,20 @@ import { switchTool } from '../store/actions/actionCreators';
 import { EYEDROPPER } from '../store/reducers/drawingToolStates';
 import IconButton from './IconButton';
 
-const Eyedropper = ({ eyedropperOn, switchEyedropper }) => (
+const Eyedropper = ({
+  helpOn,
+  helpTooltip,
+  eyedropperOn,
+  switchEyedropper
+}) => (
   <IconButton
     type="button"
     aria-label="Eyedropper Tool"
     isSelected={eyedropperOn}
     onClick={switchEyedropper}
     content={'\\6f'}
+    helpOn={helpOn}
+    helpTooltip={helpTooltip}
   />
 );
 

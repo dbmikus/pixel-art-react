@@ -1,9 +1,0 @@
-.pixel-art-react-container {
-  .move {
-    @mixin icon move;
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-}

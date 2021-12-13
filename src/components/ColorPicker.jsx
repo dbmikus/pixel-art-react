@@ -5,7 +5,7 @@ import { switchTool, setCustomColor } from '../store/actions/actionCreators';
 import { COLOR_PICKER, PENCIL } from '../store/reducers/drawingToolStates';
 import IconButton from './IconButton';
 
-const ColorPickerContainer = React.memo(() => {
+const ColorPickerContainer = React.memo(({ helpOn, helpTooltip }) => {
   const colorPickerOn = useSelector(
     state => state.present.get('drawingTool') === COLOR_PICKER
   );
@@ -52,13 +52,15 @@ const ColorPickerContainer = React.memo(() => {
   };
 
   return (
-    <div className="color-picker">
+    <div>
       <IconButton
         type="button"
         aria-label="Color Picker Tool"
         isSelected={colorPickerOn}
         onClick={handleClick}
         content={'\\68'}
+        helpOn={helpOn}
+        helpTooltip={helpTooltip}
       />
       <div style={styles.picker}>
         {colorPickerOn ? (
