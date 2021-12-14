@@ -50,7 +50,8 @@ const create = (cellsCount, intervalPercentage) =>
   Map({
     grid: createGrid(cellsCount),
     interval: intervalPercentage,
-    key: shortid.generate()
+    key: shortid.generate(),
+    name: ''
   });
 
 const resetIntervals = frameList =>
@@ -58,7 +59,8 @@ const resetIntervals = frameList =>
     Map({
       grid: frame.get('grid'),
       interval: getTimeInterval(index, frameList.size),
-      key: frame.get('key')
+      key: frame.get('key'),
+      name: frame.get('name')
     })
   );
 const getFrame = (frames, frameId) => {
@@ -67,7 +69,8 @@ const getFrame = (frames, frameId) => {
   return Map({
     grid: frame.get('grid'),
     interval: frame.get('interval'),
-    key: shortid.generate()
+    key: shortid.generate(),
+    name: frame.get('name')
   });
 };
 

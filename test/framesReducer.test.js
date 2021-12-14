@@ -1,5 +1,6 @@
 import { List, Map } from 'immutable';
 import reducer from '../src/store/reducers/framesReducer';
+import activeFrameReducer from '../src/store/reducers/activeFrameReducer';
 import * as actions from '../src/store/actions/actionCreators';
 
 const firstGridMock = [
@@ -18,6 +19,7 @@ const secondGridMock = [
   'rgba(238, 238, 238, 1)',
   'rgba(221, 221, 221, 1)'
 ];
+const secondFrameName = 'secondFrame';
 const framesMock = () =>
   Map({
     list: List([
@@ -34,7 +36,8 @@ const multipleFramesMock = () =>
   framesMock().setIn(
     ['list', 1],
     Map({
-      grid: List(secondGridMock)
+      grid: List(secondGridMock),
+      name: secondFrameName
     })
   );
 
@@ -61,6 +64,10 @@ describe('reducer: SET_INITIAL_STATE', () => {
       expect(nextState.getIn(['list', 0, 'grid', 0])).toEqual('');
       expect(nextState.getIn(['list', 0, 'grid', 169])).toEqual('');
       expect(nextState.getIn(['list', 0, 'grid', 399])).toEqual('');
+    });
+
+    it('frame has an empty name', () => {
+      expect(nextState.getIn(['list', 0, 'name'])).toEqual('');
     });
   });
 
@@ -119,17 +126,39 @@ describe('reducer: NEW_PROJECT', () => {
     expect(nextState.getIn(['list', 0, 'grid', 222])).toEqual('');
     expect(nextState.getIn(['list', 0, 'grid', 333])).toEqual('');
   });
+
+  it('frame has an empty name', () => {
+    expect(nextState.getIn(['list', 0, 'name'])).toEqual('');
+  });
 });
 
 describe('framesReducer: CHANGE_ACTIVE_FRAME', () => {
   it('should set the given frame as active', () => {
     const frameIndex = 2;
     const state = Map({
-      frames: Map({ activeIndex: 0 })
+      activeIndex: 0
     });
     const nextState = reducer(state, actions.changeActiveFrame(frameIndex));
-
     expect(nextState.get('activeIndex')).toEqual(frameIndex);
+  });
+
+  it('preserve frame names', () => {
+    const state = Map({
+      activeIndex: 0
+    });
+    const stateNameSet = activeFrameReducer(
+      state,
+      actions.setFrameName('frame0')
+    );
+    expect(stateNameSet.getIn(['list', 0, 'name'])).toEqual('frame0');
+    const stateChangeFrame = reducer(
+      stateNameSet,
+      actions.changeActiveFrame(1)
+    );
+    expect(stateChangeFrame.getIn(['list', 0, 'name'])).toEqual('frame0');
+    // changing the active frame does not actually create a new frame, it only
+    // updates the `activeIndex`.
+    expect(state.getIn(['list', 1])).toBeUndefined();
   });
 });
 
@@ -167,8 +196,16 @@ describe('framesReducer: REORDER_FRAME', () => {
 describe('framesReducer: CREATE_NEW_FRAME', () => {
   let nextState;
   beforeEach(() => {
-    const state = framesMock();
-    nextState = reducer(state, actions.createNewFrame());
+    nextState = framesMock();
+    nextState = activeFrameReducer(
+      nextState,
+      actions.setFrameName('frameName0')
+    );
+    nextState = reducer(nextState, actions.createNewFrame());
+    nextState = activeFrameReducer(
+      nextState,
+      actions.setFrameName('frameName1')
+    );
   });
 
   it('creates a new frame at the end', () => {
@@ -185,6 +222,11 @@ describe('framesReducer: CREATE_NEW_FRAME', () => {
   it('changes the interval attributes', () => {
     expect(nextState.getIn(['list', 0, 'interval'])).toEqual(50);
     expect(nextState.getIn(['list', 1, 'interval'])).toEqual(100);
+  });
+
+  it('frame names set and preserved as expected', () => {
+    expect(nextState.getIn(['list', 0, 'name'])).toEqual('frameName0');
+    expect(nextState.getIn(['list', 1, 'name'])).toEqual('frameName1');
   });
 });
 
@@ -208,8 +250,12 @@ describe('framesReducer: DUPLICATE_FRAME', () => {
   const frameId = 0;
   let nextState;
   beforeEach(() => {
-    const state = multipleFramesMock();
-    nextState = reducer(state, actions.duplicateFrame(frameId));
+    nextState = multipleFramesMock();
+    nextState = activeFrameReducer(
+      nextState,
+      actions.setFrameName('frameName0')
+    );
+    nextState = reducer(nextState, actions.duplicateFrame(frameId));
   });
 
   it('creates a new frame with the same grid colors', () => {
@@ -234,6 +280,11 @@ describe('framesReducer: DUPLICATE_FRAME', () => {
     expect(nextState.getIn(['list', 0, 'interval'])).toEqual(33.3);
     expect(nextState.getIn(['list', 1, 'interval'])).toEqual(66.7);
     expect(nextState.getIn(['list', 2, 'interval'])).toEqual(100);
+  });
+
+  it('copies the frame name', () => {
+    expect(nextState.getIn(['list', 0, 'name'])).toEqual('frameName0');
+    expect(nextState.getIn(['list', 1, 'name'])).toEqual('frameName0');
   });
 });
 
@@ -334,18 +385,6 @@ describe('framesReducer: CHANGE_DIMENSIONS', () => {
         expect(nextState.get('rows')).toEqual(state.get('rows') - 1);
       });
     });
-  });
-});
-
-describe('framesReducer: CHANGE_ACTIVE_FRAME', () => {
-  it('changes the active frame', () => {
-    const frameIndex = 2;
-    const state = Map({
-      frames: Map({ activeIndex: 0 })
-    });
-    const nextState = reducer(state, actions.changeActiveFrame(frameIndex));
-
-    expect(nextState.get('activeIndex')).toEqual(frameIndex);
   });
 });
 
