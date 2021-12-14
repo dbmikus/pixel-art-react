@@ -21,14 +21,17 @@ const MintDrawing = props => {
       columns: props.columns,
       rows: props.rows,
       animate: props.frames.size > 1,
-      id: shortid.generate()
+      id: shortid.generate(),
+      name: props.pixlyName
     };
 
     const grid = new Grid(drawingToMint.activeFrame, drawingToMint.columns);
-    mintFn(grid.toGridArray())
+    mintFn(grid.toGridArray(), drawingToMint.name)
       .then(function(result) {
         if (result) {
-          props.actions.sendNotification('Drawing minted');
+          props.actions.sendNotification(
+            `Drawing "${drawingToMint.name}" minted`
+          );
         } else {
           props.actions.sendNotification('Error minting');
         }
@@ -66,6 +69,7 @@ const mapStateToProps = state => {
   const activeFrameIndex = frames.get('activeIndex');
   return {
     activeFrame: frames.getIn(['list', activeFrameIndex]),
+    pixlyName: frames.getIn(['list', activeFrameIndex, 'name']),
     frames: frames.get('list'),
     columns: frames.get('columns'),
     rows: frames.get('rows'),

@@ -1,26 +1,18 @@
 import React from 'react';
 import CookieConsent from 'react-cookie-consent';
 import styled from 'styled-components';
-import Button from './common/Button';
-import PreviewBox from './PreviewBox';
 import PixelCanvasContainer from './PixelCanvas';
-import CellSizeContainer from './CellSize';
 import ModalContainer from './Modal';
 import DrawingControls from './DrawingControls';
-import DimensionsContainer from './Dimensions';
+import RightControls from './RightControls';
 import KeyBindings from './KeyBindings';
 import CssDisplayContainer from './CssDisplay';
-import DurationContainer from './Duration';
 import FramesHandlerContainer from './FramesHandler';
 import PaletteGridContainer from './PaletteGrid';
-import ResetContainer from './Reset';
 import SaveDrawingContainer from './SaveDrawing';
-import MintDrawingContainer from './MintDrawing';
 import NewProjectContainer from './NewProject';
 import SimpleNotificationContainer from './SimpleNotification';
 import SimpleSpinnerContainer from './SimpleSpinner';
-import CellsInfo from './CellsInfo';
-import UndoRedoContainer from './UndoRedo';
 import initialSetup from '../utils/startup';
 import drawHandlersProvider from '../utils/drawHandlersProvider';
 import { colors } from '../utils/color';
@@ -160,7 +152,7 @@ class App extends React.Component {
               drawHandlersFactory={this.drawHandlersFactory}
             />
           </PixelCanvasWrapper>
-          <StyledRightControls
+          <RightControls
             helpOn={helpOn}
             downloadClickFn={() => {
               this.changeModalType('download');
@@ -377,113 +369,5 @@ const PixelCanvasWrapper = styled.div`
 
   @media only screen and (max-width: 1050px) {
     min-width: 50%;
-  }
-`;
-
-function RightControls({ className, helpOn, previewClickFn, downloadClickFn }) {
-  return (
-    <div className={`app__right-side ${className}`}>
-      <RightControlsInnerContainer>
-        <StyledRightControlsMain
-          {...{ helpOn, previewClickFn, downloadClickFn }}
-        />
-        <div data-tooltip={helpOn ? 'Mint art' : null}>
-          <MintDrawingContainer />
-        </div>
-      </RightControlsInnerContainer>
-    </div>
-  );
-}
-
-const StyledRightControls = styled(RightControls)`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-`;
-
-const RightControlsInnerContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  // @media only screen and (max-width: 1050px) {
-  //   flex-direction: row;
-  //   align-items: center;
-
-  //   & > *:first-child {
-  //     margin-right: 1.5em;
-  //   }
-  // }
-`;
-
-function RightControlsMain({
-  className,
-  helpOn,
-  previewClickFn,
-  downloadClickFn
-}) {
-  return (
-    <div className={`app__mobile--container ${className}`}>
-      <div className="app__mobile--group">
-        <PreviewBox helpOn={helpOn} callback={previewClickFn} />
-        <CellsInfo />
-        <div
-          data-tooltip={helpOn ? 'Number of columns and rows' : null}
-          className="max-width-container-centered"
-        >
-          <DimensionsContainer />
-        </div>
-      </div>
-      {/* <div className="app__mobile--group max-width-container-centered"> */}
-      <div className="app__mobile--group">
-        <div data-tooltip={helpOn ? 'Size of one tile in px' : null}>
-          <CellSizeContainer />
-        </div>
-        <div data-tooltip={helpOn ? 'Animation duration in seconds' : null}>
-          <DurationContainer />
-        </div>
-        <div data-tooltip={helpOn ? 'Undo (CTRL+Z) Redo (CTRL+Y)' : null}>
-          <UndoRedoContainer />
-        </div>
-        <div
-          data-tooltip={helpOn ? 'Reset the selected frame' : null}
-          className="max-width-container-centered"
-        >
-          <ResetContainer />
-        </div>
-        <div
-          data-tooltip={
-            helpOn ? 'Download your creation in different formats' : null
-          }
-        >
-          <Button
-            type="button"
-            ariaLabel="Download"
-            className="app__download-button"
-            onClick={downloadClickFn}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-const StyledRightControlsMain = styled(RightControlsMain)`
-  max-width: 20em;
-  padding: 4em;
-  background-color: ${colors.darkBg0};
-  margin-bottom: 1em;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  @media only screen and (max-width: 1050px) {
-    flex-direction: row;
-    padding-top: 1.5em;
-    padding-bottom: 1.5em;
-  }
-
-  @media only screen and (max-width: 415px) {
-    flex-direction: column;
   }
 `;

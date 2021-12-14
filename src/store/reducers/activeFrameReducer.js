@@ -2,15 +2,24 @@ import * as types from '../actions/actionTypes';
 
 export const GRID_INITIAL_COLOR = 'rgba(49, 49, 49, 1)';
 
-const updateFrameProp = prop => propReducer => (frames, action) => {
+const updateFrameProp = (prop, maybeDefault) => propReducer => (
+  frames,
+  action
+) => {
   const activeIndex = frames.get('activeIndex');
-  return frames.updateIn(['list', activeIndex, prop], stateProp =>
+  if (maybeDefault === undefined) {
+    return frames.updateIn(['list', activeIndex, prop], stateProp =>
+      propReducer(stateProp, action)
+    );
+  }
+  return frames.updateIn(['list', activeIndex, prop], maybeDefault, stateProp =>
     propReducer(stateProp, action)
   );
 };
 
 const updateGrid = updateFrameProp('grid');
 const updateInterval = updateFrameProp('interval');
+const updateName = updateFrameProp('name', '');
 
 const isSameColor = (colorA, colorB) =>
   (colorA || GRID_INITIAL_COLOR) === (colorB || GRID_INITIAL_COLOR);
@@ -203,6 +212,8 @@ const changeFrameInterval = updateInterval(
   (previousInterval, { interval }) => interval
 );
 
+const changeFrameName = updateName((previousName, { name }) => name);
+
 export default function(frames, action) {
   switch (action.type) {
     case types.APPLY_PENCIL:
@@ -217,6 +228,8 @@ export default function(frames, action) {
       return resetGrid(frames);
     case types.CHANGE_FRAME_INTERVAL:
       return changeFrameInterval(frames, action);
+    case types.SET_FRAME_NAME:
+      return changeFrameName(frames, action);
     default:
       return frames;
   }
