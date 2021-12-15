@@ -16,11 +16,19 @@ import CopyCSS from './CopyCSS';
 import DownloadDrawing from './DownloadDrawing';
 import KeyBindingsLegend from './KeyBindingsLegend';
 
+export const modalTypes = {
+  COPY_CSS: 'copycss',
+  LOAD: 'load',
+  KEYBINDINGS: 'keybindings',
+  DOWNLOAD: 'download',
+  PREVIEW: 'preview'
+};
+
 class Modal extends React.Component {
   static generateRadioOptions(props) {
     let options;
 
-    if (props.type !== 'load') {
+    if (props.type !== modalTypes.LOAD) {
       options = [
         {
           value: 'single',
@@ -32,7 +40,7 @@ class Modal extends React.Component {
 
       if (props.frames.size > 1) {
         const spritesheetSupport =
-          props.type === 'download' || props.type === 'twitter';
+          props.type === modalTypes.DOWNLOAD || props.type === 'twitter';
         const animationOptionLabel = spritesheetSupport ? 'GIF' : 'animation';
 
         const animationOption = {
@@ -125,7 +133,7 @@ class Modal extends React.Component {
               frames={props.frames}
               columns={props.columns}
               rows={props.rows}
-              cellSize={props.type === 'preview' ? props.cellSize : 5}
+              cellSize={props.type === modalTypes.PREVIEW ? props.cellSize : 5}
               duration={props.duration}
               activeFrameIndex={props.activeFrameIndex}
               animate={previewType === 'animation'}
@@ -134,8 +142,8 @@ class Modal extends React.Component {
         ) : null}
       </>
     );
-    const isLoadModal = props.type === 'load';
-    const radioType = isLoadModal ? 'load' : 'preview';
+    const isLoadModal = props.type === modalTypes.LOAD;
+    const radioType = isLoadModal ? 'load' : modalTypes.PREVIEW;
     let radioOptions = (
       <div className={`modal__${radioType}`}>
         <RadioSelector
@@ -148,7 +156,7 @@ class Modal extends React.Component {
     );
 
     switch (props.type) {
-      case 'load':
+      case modalTypes.LOAD:
         content = (
           <LoadDrawing
             loadType={loadType}
@@ -166,7 +174,7 @@ class Modal extends React.Component {
           />
         );
         break;
-      case 'copycss':
+      case modalTypes.COPY_CSS:
         content = (
           <>
             {previewBlock}
@@ -182,7 +190,7 @@ class Modal extends React.Component {
           </>
         );
         break;
-      case 'download':
+      case modalTypes.DOWNLOAD:
         content = (
           <>
             {previewBlock}
@@ -199,7 +207,7 @@ class Modal extends React.Component {
           </>
         );
         break;
-      case 'keybindings':
+      case modalTypes.KEYBINDINGS:
         content = (
           <>
             <KeyBindingsLegend />

@@ -2,7 +2,7 @@ import React from 'react';
 import CookieConsent from 'react-cookie-consent';
 import styled from 'styled-components';
 import PixelCanvasContainer from './PixelCanvas';
-import ModalContainer from './Modal';
+import ModalContainer, { modalTypes } from './Modal';
 import DrawingControls from './DrawingControls';
 import RightControls from './RightControls';
 import KeyBindings from './KeyBindings';
@@ -62,7 +62,7 @@ class App extends React.Component {
         type="button"
         className="app__copycss-button"
         onClick={() => {
-          this.changeModalType('copycss');
+          this.changeModalType(modalTypes.COPY_CSS);
         }}
         data-tooltip={helpOn ? 'Check your CSS generated code' : null}
       >
@@ -87,7 +87,7 @@ class App extends React.Component {
             type="button"
             className="app__load-button"
             onClick={() => {
-              this.changeModalType('load');
+              this.changeModalType(modalTypes.LOAD);
             }}
             data-tooltip={helpOn ? 'Load projects you stored before' : null}
           >
@@ -136,14 +136,14 @@ class App extends React.Component {
               this.toggleHelp();
             }}
             keyBindingsClickFn={() => {
-              this.changeModalType('keybindings');
+              this.changeModalType(modalTypes.KEYBINDINGS);
             }}
             copyCssClickFn={() => {
-              this.changeModalType('copycss');
+              this.changeModalType(modalTypes.COPY_CSS);
             }}
             isCssCopyButtonRendered={false}
             loadClickFn={() => {
-              this.changeModalType('load');
+              this.changeModalType(modalTypes.LOAD);
             }}
             isIOControlsRendered={false}
           />
@@ -155,10 +155,10 @@ class App extends React.Component {
           <RightControls
             helpOn={helpOn}
             downloadClickFn={() => {
-              this.changeModalType('download');
+              this.changeModalType(modalTypes.DOWNLOAD);
             }}
             previewClickFn={() => {
-              this.changeModalType('preview');
+              this.changeModalType(modalTypes.PREVIEW);
             }}
           />
         </StyledCentralContainer>
