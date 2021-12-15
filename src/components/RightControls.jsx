@@ -119,11 +119,15 @@ function RightControlsMain({
             onClick={downloadClickFn}
           />
         </div>
-        <input
-          type="text"
-          value={pixlyName}
-          onChange={event => setPixlyName(event.target.value)}
-        />
+        <div css="margin-top: 1em">
+          <input
+            css="padding: 0.25em;"
+            type="text"
+            placeholder="Name of Pixly"
+            value={pixlyName}
+            onChange={event => setPixlyName(event.target.value)}
+          />
+        </div>
       </div>
     </div>
   );
