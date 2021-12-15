@@ -28,30 +28,30 @@ const KeyBindings = ({ onClick }) => {
         dispatch(redo());
       },
       // prettier-ignore
-      'KeyM': event => {
+      'KeyM': wrapCheckOverride(event => {
         event.preventDefault();
         dispatch(switchTool(MOVE));
-      },
+      }),
       // prettier-ignore
-      'KeyE': event => {
+      'KeyE': wrapCheckOverride(event => {
         event.preventDefault();
         dispatch(switchTool(ERASER));
-      },
+      }),
       // prettier-ignore
-      'KeyB': event => {
+      'KeyB': wrapCheckOverride(event => {
         event.preventDefault();
         dispatch(switchTool(BUCKET));
-      },
+      }),
       // prettier-ignore
-      'KeyO': event => {
+      'KeyO': wrapCheckOverride(event => {
         event.preventDefault();
         dispatch(switchTool(EYEDROPPER));
-      },
+      }),
       // prettier-ignore
-      'KeyP': event => {
+      'KeyP': wrapCheckOverride(event => {
         event.preventDefault();
         dispatch(switchTool(COLOR_PICKER));
-      },
+      }),
       '$mod+ArrowRight': event => {
         event.preventDefault();
         dispatch(changeDimensions('columns', 1));
@@ -83,5 +83,22 @@ const KeyBindings = ({ onClick }) => {
     />
   );
 };
+
+// Determines whether we should skip the keybinding or not.
+function isBindingOverridden(event) {
+  return (
+    event.target.tagName.toLowerCase() === 'input' &&
+    event.target.getAttribute('type') === 'text'
+  );
+}
+
+function wrapCheckOverride(eventHandlerFn) {
+  return event => {
+    if (isBindingOverridden(event)) {
+      return;
+    }
+    eventHandlerFn(event);
+  };
+}
 
 export default KeyBindings;
