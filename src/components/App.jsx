@@ -160,6 +160,9 @@ class App extends React.Component {
             previewClickFn={() => {
               this.changeModalType(modalTypes.PREVIEW);
             }}
+            mintClickFn={() => {
+              this.changeModalType(modalTypes.MINT);
+            }}
           />
         </StyledCentralContainer>
         <div className="css-container">

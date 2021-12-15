@@ -17,13 +17,15 @@ import CopyCSS from './CopyCSS';
 import DownloadDrawing from './DownloadDrawing';
 import KeyBindingsLegend from './KeyBindingsLegend';
 import Button from './common/Button';
+import MintModalContainer from './MintDrawing';
 
 export const modalTypes = {
   COPY_CSS: 'copycss',
   LOAD: 'load',
   KEYBINDINGS: 'keybindings',
   DOWNLOAD: 'download',
-  PREVIEW: 'preview'
+  PREVIEW: 'preview',
+  MINT: 'mint'
 };
 
 class Modal extends React.Component {
@@ -217,6 +219,15 @@ class Modal extends React.Component {
         );
         radioOptions = null;
         break;
+      case modalTypes.MINT:
+        content = (
+          <>
+            {previewBlock}
+            <MintModalContainer />
+          </>
+        );
+        radioOptions = null;
+        break;
       default:
         content = <>{previewBlock}</>;
         break;
@@ -299,6 +310,7 @@ const StyledModal = styled(Modal)`
   .modal__preview,
   .modal__load {
     .modal__preview--wrapper {
+      border: solid 1px black;
       margin: 1em auto;
       display: table;
     }

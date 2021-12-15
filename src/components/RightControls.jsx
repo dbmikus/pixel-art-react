@@ -2,14 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { setFrameName } from '../store/actions/actionCreators';
-// TODO(dbmikus) [#16] commented out until fixed below
-// import Button from './common/Button';
+import Button from './common/Button';
 import PreviewBox from './PreviewBox';
 import CellSizeContainer from './CellSize';
 import DimensionsContainer from './Dimensions';
 import DurationContainer from './Duration';
 import ResetContainer from './Reset';
-import MintDrawingContainer from './MintDrawing';
 import CellsInfo from './CellsInfo';
 import UndoRedoContainer from './UndoRedo';
 import { colors } from '../utils/color';
@@ -19,6 +17,7 @@ function RightControls({
   helpOn,
   previewClickFn,
   downloadClickFn,
+  mintClickFn,
   setPixlyName,
   pixlyName
 }) {
@@ -35,7 +34,15 @@ function RightControls({
           }}
         />
         <div data-tooltip={helpOn ? 'Mint art' : null}>
-          <MintDrawingContainer />
+          <div>
+            <MintButton
+              type="button"
+              ariaLabel="Mint Pixly"
+              onClick={mintClickFn}
+            >
+              MINT PIXLY!
+            </MintButton>
+          </div>
         </div>
       </RightControlsInnerContainer>
     </div>
@@ -65,6 +72,19 @@ const StyledRightControls = styled(ConnectedRightControls)`
   display: flex;
   flex-direction: row;
   justify-content: center;
+`;
+
+const MintButton = styled(Button)`
+  background-color: ${colors.purple};
+
+  width: 100%;
+  padding: 0.5em;
+  margin-bottom: 0.6em;
+
+  &:hover,
+  &.selected {
+    background-color: ${colors.darkPurple} !important;
+  }
 `;
 
 const RightControlsInnerContainer = styled.div`

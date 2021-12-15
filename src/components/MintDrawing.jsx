@@ -9,6 +9,8 @@ import Button from './common/Button';
 import Grid from '../utils/grid';
 import { colors } from '../utils/color';
 
+const UNTITLED_DISPLAY_NAME = '(untitled)';
+
 const MintDrawing = props => {
   const { mintFn } = useEthContext();
 
@@ -30,7 +32,7 @@ const MintDrawing = props => {
       .then(function(result) {
         if (result) {
           props.actions.sendNotification(
-            `Drawing "${drawingToMint.name}" minted`
+            `Pixly "${drawingToMint.name || UNTITLED_DISPLAY_NAME}" minted`
           );
         } else {
           props.actions.sendNotification('Error minting');
@@ -45,7 +47,7 @@ const MintDrawing = props => {
   return (
     <div>
       <MintButton type="button" ariaLabel="Mint Pixly" onClick={mint}>
-        MINT PIXLY!
+        CONFIRM MINT
       </MintButton>
     </div>
   );
@@ -54,8 +56,7 @@ const MintDrawing = props => {
 const MintButton = styled(Button)`
   background-color: ${colors.purple};
 
-  width: 100%;
-  padding: 0.5em;
+  padding: 0.5em 2em;
   margin-bottom: 0.6em;
 
   &:hover,
@@ -63,6 +64,27 @@ const MintButton = styled(Button)`
     background-color: ${colors.darkPurple} !important;
   }
 `;
+
+function MintModal(props) {
+  const { pixlyName } = props;
+
+  return (
+    <div
+      css={`
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        & > * {
+          margin: 2em 0;
+        }
+      `}
+    >
+      <PixlyName>{pixlyName || UNTITLED_DISPLAY_NAME}</PixlyName>
+      <MintDrawing {...props} />
+    </div>
+  );
+}
 
 const mapStateToProps = state => {
   const frames = state.present.get('frames');
@@ -82,8 +104,12 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actionCreators, dispatch)
 });
 
-const MintDrawingContainer = connect(
+const MintModalContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(MintDrawing);
-export default MintDrawingContainer;
+)(MintModal);
+export default MintModalContainer;
+
+const PixlyName = styled.span`
+  font-weight: bold;
+`;
