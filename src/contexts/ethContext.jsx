@@ -21,7 +21,7 @@ const EthContext = createContext(null);
  *
  * // grid is a 2D grid, so each inner array must be the same length
  * // name is the name of the item being minted
- * (grid: Array<Array<RGBA>>, name: string): boolean
+ * (grid: Array<Array<RGBA>>, name: string): Promise<boolean>
  * ```
  *
  * The return value is whether minting succeeded or failed.
