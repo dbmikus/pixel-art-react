@@ -86,10 +86,7 @@ const KeyBindings = ({ onClick }) => {
 
 // Determines whether we should skip the keybinding or not.
 function isBindingOverridden(event) {
-  return (
-    event.target.tagName.toLowerCase() === 'input' &&
-    event.target.getAttribute('type') === 'text'
-  );
+  return event.target.tagName.toLowerCase() === 'input';
 }
 
 function wrapCheckOverride(eventHandlerFn) {
