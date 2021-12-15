@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { setFrameName } from '../store/actions/actionCreators';
-import Button from './common/Button';
+// TODO(dbmikus) [#16] commented out until fixed below
+// import Button from './common/Button';
 import PreviewBox from './PreviewBox';
 import CellSizeContainer from './CellSize';
 import DimensionsContainer from './Dimensions';
@@ -75,7 +76,8 @@ function RightControlsMain({
   className,
   helpOn,
   previewClickFn,
-  downloadClickFn,
+  // TODO(dbmikus) [#16] commented out until fixed below
+  // downloadClickFn,
   pixlyName,
   setPixlyName
 }) {
@@ -107,7 +109,8 @@ function RightControlsMain({
         >
           <ResetContainer />
         </div>
-        <div
+        {/* TODO(dbmikus) [#16] Fix how the download modal is rendered before re-enabling */}
+        {/* <div
           data-tooltip={
             helpOn ? 'Download your creation in different formats' : null
           }
@@ -118,7 +121,7 @@ function RightControlsMain({
             className="app__download-button"
             onClick={downloadClickFn}
           />
-        </div>
+        </div> */}
         <div css="margin-top: 1em">
           <input
             css="padding: 0.25em;"
