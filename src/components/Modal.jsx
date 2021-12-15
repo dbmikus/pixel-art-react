@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ModalReact from 'react-modal';
+import styled from 'styled-components';
 import {
   disableBodyScroll,
   enableBodyScroll,
@@ -15,6 +16,7 @@ import Preview from './Preview';
 import CopyCSS from './CopyCSS';
 import DownloadDrawing from './DownloadDrawing';
 import KeyBindingsLegend from './KeyBindingsLegend';
+import Button from './common/Button';
 
 export const modalTypes = {
   COPY_CSS: 'copycss',
@@ -221,11 +223,15 @@ class Modal extends React.Component {
     }
 
     return (
-      <div className="modal">
+      <div className={props.className}>
         <div className="modal__header">
-          <button type="button" className="close" onClick={this.closeModal}>
+          <CloseButton
+            ariaLabel="close modal"
+            type="button"
+            onClick={this.closeModal}
+          >
             x
-          </button>
+          </CloseButton>
         </div>
         {radioOptions}
         <div className="modal__body" ref={this.modalBodyRef}>
@@ -272,6 +278,46 @@ class Modal extends React.Component {
   }
 }
 
+const StyledModal = styled(Modal)`
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue',
+    Helvetica, Arial, 'Lucida Grande', sans-serif;
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  .modal__header {
+    text-align: right;
+    padding-bottom: 1em;
+  }
+  .preview {
+    margin: 0 auto;
+  }
+  .modal__body {
+    overflow: auto;
+    overflow-x: hidden;
+  }
+  .modal__preview,
+  .modal__load {
+    .modal__preview--wrapper {
+      margin: 1em auto;
+      display: table;
+    }
+  }
+
+  .modal__load,
+  .modal__preview,
+  .modal__body {
+    fieldset {
+      padding: 1em 0;
+
+      label {
+        margin: 1em 0.5em;
+        display: inline-block;
+      }
+    }
+  }
+`;
+
 const mapStateToProps = state => {
   const frames = state.present.get('frames');
   const activeFrameIndex = frames.get('activeIndex');
@@ -291,5 +337,12 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actionCreators, dispatch)
 });
 
-const ModalContainer = connect(mapStateToProps, mapDispatchToProps)(Modal);
+const ModalContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(StyledModal);
 export default ModalContainer;
+
+const CloseButton = styled(Button)`
+  padding: 0.4em 0.7em 0.3em 0.8em;
+`;

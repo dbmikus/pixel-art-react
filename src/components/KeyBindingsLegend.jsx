@@ -40,7 +40,13 @@ const ShortcutList = styled.div`
 `;
 
 const ShortcutOption = styled.div`
-  padding: 1.4em 0;
+  display: flex;
+  flex-direction: row;
+  padding: 1em 0;
+
+  & > * {
+    width: 50%;
+  }
 `;
 
 const KeyContainer = styled.span`
@@ -66,10 +72,10 @@ const Shortcut = ({ label, keyList }) => {
 
   return (
     <ShortcutOption>
-      <div className="col-1-2">
+      <div>
         <b>{label}</b>
       </div>
-      <div className="col-1-2">{combination(keyList)}</div>
+      <div>{combination(keyList)}</div>
     </ShortcutOption>
   );
 };
