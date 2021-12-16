@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from '../utils/color';
 
-const GRID_INITIAL_COLOR = 'rgba(49, 49, 49, 1)';
+const GRID_INITIAL_COLOR = 'rgba(0, 0, 0, 1)';
 
 export default class PixelCell extends React.Component {
   shouldComponentUpdate(nextProps) {

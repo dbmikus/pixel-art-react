@@ -1,3 +1,7 @@
+// The default color (in other terms, the background color on which you paint)
+// is fully opaque black.
+const DEFAULT_CELL_COLOR = { r: 0, g: 0, b: 0, a: 1 };
+
 export default class Grid {
   constructor(frame, columns) {
     this.grid = frame.get('grid');
@@ -21,7 +25,7 @@ export default class Grid {
 
   static strToRGBA(rgbaStr) {
     if (rgbaStr.trim() === '') {
-      return { r: 0, g: 0, b: 0, a: 0 };
+      return DEFAULT_CELL_COLOR;
     }
     const arr = rgbaStr
       .slice(rgbaStr.indexOf('(') + 1, -1)
