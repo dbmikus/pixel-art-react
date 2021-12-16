@@ -4,8 +4,9 @@ import tinykeys from 'tinykeys';
 import {
   undo,
   redo,
-  switchTool,
-  changeDimensions
+  switchTool
+  // commented out because we commented out the keybinding using it
+  // changeDimensions
 } from '../store/actions/actionCreators';
 import {
   MOVE,
@@ -19,55 +20,59 @@ const KeyBindings = ({ onClick }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     const keyCombinations = {
-      '$mod+KeyZ': event => {
+      '$mod+KeyZ': wrapCheckOverride(event => {
         event.preventDefault();
         dispatch(undo());
-      },
-      '$mod+KeyY': event => {
+      }),
+      '$mod+KeyY': wrapCheckOverride(event => {
         event.preventDefault();
         dispatch(redo());
-      },
+      }),
       // prettier-ignore
-      'KeyM': event => {
+      'KeyM': wrapCheckOverride(event => {
         event.preventDefault();
         dispatch(switchTool(MOVE));
-      },
+      }),
       // prettier-ignore
-      'KeyE': event => {
+      'KeyE': wrapCheckOverride(event => {
         event.preventDefault();
         dispatch(switchTool(ERASER));
-      },
+      }),
       // prettier-ignore
-      'KeyB': event => {
+      'KeyB': wrapCheckOverride(event => {
         event.preventDefault();
         dispatch(switchTool(BUCKET));
-      },
+      }),
       // prettier-ignore
-      'KeyO': event => {
+      'KeyO': wrapCheckOverride(event => {
         event.preventDefault();
         dispatch(switchTool(EYEDROPPER));
-      },
+      }),
       // prettier-ignore
-      'KeyP': event => {
+      'KeyP': wrapCheckOverride(event => {
         event.preventDefault();
         dispatch(switchTool(COLOR_PICKER));
-      },
-      '$mod+ArrowRight': event => {
-        event.preventDefault();
-        dispatch(changeDimensions('columns', 1));
-      },
-      '$mod+ArrowLeft': event => {
-        event.preventDefault();
-        dispatch(changeDimensions('columns', -1));
-      },
-      '$mod+ArrowDown': event => {
-        event.preventDefault();
-        dispatch(changeDimensions('rows', 1));
-      },
-      '$mod+ArrowUp': event => {
-        event.preventDefault();
-        dispatch(changeDimensions('rows', -1));
-      }
+      })
+
+      // The below are disabled because we don't allow redefining the canvas
+      // size.
+
+      // '$mod+ArrowRight': event => {
+      //   event.preventDefault();
+      //   dispatch(changeDimensions('columns', 1));
+      // },
+      // '$mod+ArrowLeft': event => {
+      //   event.preventDefault();
+      //   dispatch(changeDimensions('columns', -1));
+      // },
+      // '$mod+ArrowDown': event => {
+      //   event.preventDefault();
+      //   dispatch(changeDimensions('rows', 1));
+      // },
+      // '$mod+ArrowUp': event => {
+      //   event.preventDefault();
+      //   dispatch(changeDimensions('rows', -1));
+      // }
     };
     const unsubscribe = tinykeys(window, keyCombinations);
     return () => {
@@ -83,5 +88,19 @@ const KeyBindings = ({ onClick }) => {
     />
   );
 };
+
+// Determines whether we should skip the keybinding or not.
+function isBindingOverridden(event) {
+  return event.target.tagName.toLowerCase() === 'input';
+}
+
+function wrapCheckOverride(eventHandlerFn) {
+  return event => {
+    if (isBindingOverridden(event)) {
+      return;
+    }
+    eventHandlerFn(event);
+  };
+}
 
 export default KeyBindings;

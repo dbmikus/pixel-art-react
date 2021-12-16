@@ -14,7 +14,11 @@ const Dimensions = props => {
     props.actions.changeDimensions(gridProperty, behaviour);
   };
 
-  const { columns, rows } = props;
+  const { columns, rows, showDimensionsUI } = props;
+
+  if (!showDimensionsUI) {
+    return null;
+  }
 
   return (
     <div className="dimensions">
@@ -30,7 +34,8 @@ const Dimensions = props => {
 
 const mapStateToProps = state => ({
   columns: state.present.getIn(['frames', 'columns']),
-  rows: state.present.getIn(['frames', 'rows'])
+  rows: state.present.getIn(['frames', 'rows']),
+  showDimensionsUI: state.present.get('options').get('showDimensionsUI')
 });
 
 const mapDispatchToProps = dispatch => ({

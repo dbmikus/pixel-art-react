@@ -1,34 +1,25 @@
 import React from 'react';
 import CookieConsent from 'react-cookie-consent';
-import PreviewBox from './PreviewBox';
+import styled from 'styled-components';
 import PixelCanvasContainer from './PixelCanvas';
-import CellSizeContainer from './CellSize';
-import ColorPickerContainer from './ColorPicker';
-import ModalContainer from './Modal';
-import DimensionsContainer from './Dimensions';
+import ModalContainer, { modalTypes } from './Modal';
+import DrawingControls from './DrawingControls';
+import RightControls from './RightControls';
 import KeyBindings from './KeyBindings';
 import CssDisplayContainer from './CssDisplay';
-import DurationContainer from './Duration';
-import EraserContainer from './Eraser';
-import BucketContainer from './Bucket';
-import MoveContainer from './Move';
-import EyedropperContainer from './Eyedropper';
 import FramesHandlerContainer from './FramesHandler';
 import PaletteGridContainer from './PaletteGrid';
-import ResetContainer from './Reset';
 import SaveDrawingContainer from './SaveDrawing';
-import MintDrawingContainer from './MintDrawing';
 import NewProjectContainer from './NewProject';
 import SimpleNotificationContainer from './SimpleNotification';
 import SimpleSpinnerContainer from './SimpleSpinner';
-import CellsInfo from './CellsInfo';
-import UndoRedoContainer from './UndoRedo';
 import initialSetup from '../utils/startup';
 import drawHandlersProvider from '../utils/drawHandlersProvider';
+import { colors } from '../utils/color';
 
-export default class App extends React.Component {
-  constructor() {
-    super();
+class App extends React.Component {
+  constructor(props) {
+    super(props);
     this.state = {
       modalType: null,
       modalOpen: false,
@@ -60,11 +51,62 @@ export default class App extends React.Component {
     this.setState({ helpOn: !helpOn });
   }
 
+  renderCopyCssButton({ helpOn }) {
+    const renderButton = false;
+    if (!renderButton) {
+      return null;
+    }
+
+    return (
+      <button
+        type="button"
+        className="app__copycss-button"
+        onClick={() => {
+          this.changeModalType(modalTypes.COPY_CSS);
+        }}
+        data-tooltip={helpOn ? 'Check your CSS generated code' : null}
+      >
+        css
+      </button>
+    );
+  }
+
+  renderIOControls({ helpOn }) {
+    const doRender = false;
+    if (!doRender) {
+      return null;
+    }
+
+    return (
+      <div className="app__mobile--group">
+        <div data-tooltip={helpOn ? 'New project' : null}>
+          <NewProjectContainer />
+        </div>
+        <div className="app__load-save-container">
+          <button
+            type="button"
+            className="app__load-button"
+            onClick={() => {
+              this.changeModalType(modalTypes.LOAD);
+            }}
+            data-tooltip={helpOn ? 'Load projects you stored before' : null}
+          >
+            LOAD
+          </button>
+          <div data-tooltip={helpOn ? 'Save your project' : null}>
+            <SaveDrawingContainer />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { helpOn, modalType, modalOpen } = this.state;
+    const { className } = this.props;
     return (
       <div
-        className="pixel-art-react-container app app__main"
+        className={`${className} pixel-art-react-container app app__main`}
         onMouseUp={this.onMouseUp}
         onTouchEnd={this.onMouseUp}
         onTouchCancel={this.onMouseUp}
@@ -75,8 +117,7 @@ export default class App extends React.Component {
           fadeOutTime={1500}
           duration={1500}
         />
-        <div
-          className="app__frames-container"
+        <StyledAppFramesContainer
           data-tooltip={
             helpOn
               ? `Create an awesome animation sequence.
@@ -87,189 +128,43 @@ export default class App extends React.Component {
           }
         >
           <FramesHandlerContainer />
-        </div>
-        <div className="app__central-container">
-          <div className="left col-1-4">
-            <div className="app__left-side">
-              <div className="app__mobile--container max-width-container">
-                <div className="app__mobile--group">
-                  <div data-tooltip={helpOn ? 'New project' : null}>
-                    <NewProjectContainer />
-                  </div>
-                  <div data-tooltip={helpOn ? 'Mint art' : null}>
-                    <MintDrawingContainer />
-                  </div>
-                  <div className="app__load-save-container">
-                    <button
-                      type="button"
-                      className="app__load-button"
-                      onClick={() => {
-                        this.changeModalType('load');
-                      }}
-                      data-tooltip={
-                        helpOn ? 'Load projects you stored before' : null
-                      }
-                    >
-                      LOAD
-                    </button>
-                    <div data-tooltip={helpOn ? 'Save your project' : null}>
-                      <SaveDrawingContainer />
-                    </div>
-                  </div>
-                  <div
-                    data-tooltip={helpOn ? 'Undo (CTRL+Z) Redo (CTRL+Y)' : null}
-                  >
-                    <UndoRedoContainer />
-                  </div>
-                  <div className="app__tools-wrapper grid-3">
-                    <div
-                      data-tooltip={
-                        helpOn
-                          ? 'It fills an area of the current frame based on color similarity (B)'
-                          : null
-                      }
-                    >
-                      <BucketContainer />
-                    </div>
-                    <div
-                      data-tooltip={
-                        helpOn ? 'Sample a color from your drawing (O)' : null
-                      }
-                    >
-                      <EyedropperContainer />
-                    </div>
-                    <div
-                      data-tooltip={
-                        helpOn
-                          ? 'Choose a new color that is not in your palette (P)'
-                          : null
-                      }
-                    >
-                      <ColorPickerContainer />
-                    </div>
-                    <div data-tooltip={helpOn ? 'Remove colors (E)' : null}>
-                      <EraserContainer />
-                    </div>
-                    <div
-                      data-tooltip={
-                        helpOn
-                          ? 'Move your drawing around the canvas (M)'
-                          : null
-                      }
-                    >
-                      <MoveContainer />
-                    </div>
-                  </div>
-                </div>
-                <div className="app__mobile--group">
-                  <PaletteGridContainer />
-                </div>
-              </div>
-              <div className="app__mobile--container max-width-container">
-                <div className="app__mobile--group">
-                  <button
-                    type="button"
-                    className="app__copycss-button"
-                    onClick={() => {
-                      this.changeModalType('copycss');
-                    }}
-                    data-tooltip={
-                      helpOn ? 'Check your CSS generated code' : null
-                    }
-                  >
-                    css
-                  </button>
-                </div>
-                <div className="app__mobile--group">
-                  <div className="app__social-container">
-                    <div
-                      data-tooltip={
-                        helpOn
-                          ? 'Download your creation in different formats'
-                          : null
-                      }
-                    >
-                      <button
-                        type="button"
-                        aria-label="Download"
-                        className="app__download-button"
-                        onClick={() => {
-                          this.changeModalType('download');
-                        }}
-                      />
-                    </div>
-                    <div className="app__help-container">
-                      <div data-tooltip="Toggle help tooltips">
-                        <button
-                          type="button"
-                          aria-label="Help"
-                          className={`app__toggle-help-button
-                          ${helpOn ? ' selected' : ''}`}
-                          onClick={() => {
-                            this.toggleHelp();
-                          }}
-                        />
-                      </div>
-                      <div
-                        data-tooltip={helpOn ? 'Show keyboard shortcuts' : null}
-                      >
-                        <KeyBindings
-                          onClick={() => {
-                            this.changeModalType('keybindings');
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="center col-2-4">
+        </StyledAppFramesContainer>
+        <StyledCentralContainer>
+          <LeftControls
+            helpOn={helpOn}
+            helpClickFn={() => {
+              this.toggleHelp();
+            }}
+            keyBindingsClickFn={() => {
+              this.changeModalType(modalTypes.KEYBINDINGS);
+            }}
+            copyCssClickFn={() => {
+              this.changeModalType(modalTypes.COPY_CSS);
+            }}
+            isCssCopyButtonRendered={false}
+            loadClickFn={() => {
+              this.changeModalType(modalTypes.LOAD);
+            }}
+            isIOControlsRendered={false}
+          />
+          <PixelCanvasWrapper>
             <PixelCanvasContainer
               drawHandlersFactory={this.drawHandlersFactory}
             />
-          </div>
-          <div className="right col-1-4">
-            <div className="app__right-side">
-              <div className="app__mobile--container">
-                <div className="app__mobile--group">
-                  <PreviewBox
-                    helpOn={helpOn}
-                    callback={() => {
-                      this.changeModalType('preview');
-                    }}
-                  />
-                  <div
-                    data-tooltip={helpOn ? 'Reset the selected frame' : null}
-                    className="max-width-container-centered {"
-                  >
-                    <ResetContainer />
-                  </div>
-                  <div
-                    data-tooltip={helpOn ? 'Number of columns and rows' : null}
-                    className="max-width-container-centered {"
-                  >
-                    <DimensionsContainer />
-                  </div>
-                </div>
-                <div className="app__mobile--group max-width-container-centered {">
-                  <div data-tooltip={helpOn ? 'Size of one tile in px' : null}>
-                    <CellSizeContainer />
-                  </div>
-                  <div
-                    data-tooltip={
-                      helpOn ? 'Animation duration in seconds' : null
-                    }
-                  >
-                    <DurationContainer />
-                    <CellsInfo />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          </PixelCanvasWrapper>
+          <RightControls
+            helpOn={helpOn}
+            downloadClickFn={() => {
+              this.changeModalType(modalTypes.DOWNLOAD);
+            }}
+            previewClickFn={() => {
+              this.changeModalType(modalTypes.PREVIEW);
+            }}
+            mintClickFn={() => {
+              this.changeModalType(modalTypes.MINT);
+            }}
+          />
+        </StyledCentralContainer>
         <div className="css-container">
           <CssDisplayContainer />
         </div>
@@ -319,3 +214,163 @@ export default class App extends React.Component {
     );
   }
 }
+
+const StyledApp = styled(App)`
+  background-color: ${colors.darkBg1};
+`;
+export default StyledApp;
+
+const StyledAppFramesContainer = styled.div`
+  margin-bottom: 1em;
+
+  &[data-tooltip]:after {
+    width: 80%;
+    margin-left: -40%;
+  }
+
+  @media only screen and (min-width: 730px) {
+    /*
+    Fix small vertical scrollbar glitch for some resolutions
+    inside frames-handler
+    Detected in Chrome
+    */
+    &:-webkit-scrollbar,
+    & div::-webkit-scrollbar {
+      width: 1em !important;
+    }
+  }
+
+  @media only screen and (max-width: 740px) {
+    margin-bottom: 0;
+  }
+`;
+
+const StyledCentralContainer = styled.div`
+  padding: 2rem 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  & > * {
+    flex-grow: 1;
+    margin-bottom: 2em;
+  }
+
+  @media only screen and (max-width: 740px) {
+    flex-direction: column;
+    padding-top: 0;
+  }
+`;
+
+function LeftControls({
+  helpOn,
+  keyBindingsClickFn,
+  helpClickFn,
+  copyCssClickFn,
+  isCssCopyButtonRendered,
+  loadClickFn,
+  isIOControlsRendered
+}) {
+  return (
+    <StyledLeftControls>
+      <div className="app__mobile--container">
+        {isIOControlsRendered ? (
+          <IOControls helpOn={helpOn} loadClickFn={loadClickFn} />
+        ) : null}
+        <DrawingControls helpOn={helpOn} />
+      </div>
+      <LeftSecondControls>
+        <div className="app__mobile--group">
+          <PaletteGridContainer />
+        </div>
+        <div className="app__mobile--group">
+          {isCssCopyButtonRendered ? (
+            <button
+              type="button"
+              className="app__copycss-button"
+              onClick={copyCssClickFn}
+              data-tooltip={helpOn ? 'Check your CSS generated code' : null}
+            >
+              css
+            </button>
+          ) : null}
+        </div>
+        <div className="app__mobile--group">
+          <div className="app__social-container">
+            <div className="app__help-container">
+              <div data-tooltip="Toggle help tooltips">
+                <button
+                  type="button"
+                  aria-label="Help"
+                  className={`app__toggle-help-button
+                          ${helpOn ? ' selected' : ''}`}
+                  onClick={helpClickFn}
+                />
+              </div>
+              <div data-tooltip={helpOn ? 'Show keyboard shortcuts' : null}>
+                <KeyBindings onClick={keyBindingsClickFn} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </LeftSecondControls>
+    </StyledLeftControls>
+  );
+}
+
+const StyledLeftControls = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  @media only screen and (max-width: 740px) {
+    flex-direction: column;
+  }
+`;
+
+const LeftSecondControls = styled.div`
+  max-width: 12em;
+  margin-left: 1.5em;
+
+  @media only screen and (max-width: 740px) {
+    margin: auto;
+  }
+`;
+
+function IOControls({ helpOn, loadClickFn }) {
+  return (
+    <div className="app__mobile--group">
+      <div data-tooltip={helpOn ? 'New project' : null}>
+        <NewProjectContainer />
+      </div>
+      <div className="app__load-save-container">
+        <button
+          type="button"
+          className="app__load-button"
+          onClick={loadClickFn}
+          data-tooltip={helpOn ? 'Load projects you stored before' : null}
+        >
+          LOAD
+        </button>
+        <div data-tooltip={helpOn ? 'Save your project' : null}>
+          <SaveDrawingContainer />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const PixelCanvasWrapper = styled.div`
+  // TODO(dbmikus) [#10] This is a hack to prevent the grid from horizontally
+  // overflowing on mobile. However, it slightly compresses the pixels so they
+  // are not square.
+  max-width: 95%;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  @media only screen and (max-width: 1050px) {
+    min-width: 50%;
+  }
+`;

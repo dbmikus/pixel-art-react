@@ -5,14 +5,15 @@ import activeFrameReducer from './activeFrameReducer';
 import drawingToolReducer from './drawingToolReducer';
 import * as types from '../actions/actionTypes';
 
-function setInitialState(state) {
+function setInitialState(state, action) {
   const cellSize = 10;
 
   const initialState = {
     cellSize,
     loading: false,
     notifications: List(),
-    duration: 1
+    duration: 1,
+    options: action.options
   };
 
   return state.merge(initialState);
@@ -55,7 +56,11 @@ function updateGridBoundaries(state, action) {
 }
 
 function generateDefaultState() {
-  return setInitialState(Map(), { type: types.SET_INITIAL_STATE, state: {} });
+  return setInitialState(Map(), {
+    type: types.SET_INITIAL_STATE,
+    state: {},
+    options: { showFrameControls: true, showDimensionsUI: true }
+  });
 }
 
 const pipeReducers = reducers => (initialState, action) =>
@@ -64,7 +69,7 @@ const pipeReducers = reducers => (initialState, action) =>
 function partialReducer(state, action) {
   switch (action.type) {
     case types.SET_INITIAL_STATE:
-      return setInitialState(state);
+      return setInitialState(state, action);
     case types.SET_DRAWING:
       return setDrawing(state, action);
     case types.SET_CELL_SIZE:
@@ -78,7 +83,7 @@ function partialReducer(state, action) {
     case types.SET_DURATION:
       return setDuration(state, action.duration);
     case types.NEW_PROJECT:
-      return setInitialState(state);
+      return setInitialState(state, action);
     case types.UPDATE_GRID_BOUNDARIES:
       return updateGridBoundaries(state, action);
     default:

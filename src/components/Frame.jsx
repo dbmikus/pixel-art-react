@@ -34,7 +34,15 @@ export default class Frame extends React.Component {
   }
 
   render() {
-    const { active, dataId, frame, lastFrame, columns, rows } = this.props;
+    const {
+      active,
+      dataId,
+      frame,
+      lastFrame,
+      columns,
+      rows,
+      showFrameControls
+    } = this.props;
     return (
       <Draggable key={dataId} draggableId={dataId.toString()} index={dataId}>
         {provided => (
@@ -75,18 +83,23 @@ export default class Frame extends React.Component {
                 this.duplicateFrame(event);
               }}
             />
-            <input
-              type="number"
-              value={frame.get('interval')}
-              onChange={event => {
-                this.changeInterval(event);
-              }}
-              className="frame__percentage"
-              ref={c => {
-                this.percentage = c;
-              }}
-              disabled={lastFrame || !active}
-            />
+
+            {showFrameControls ? (
+              <input
+                type="number"
+                value={frame.get('interval')}
+                onChange={event => {
+                  this.changeInterval(event);
+                }}
+                className="frame__percentage"
+                ref={c => {
+                  this.percentage = c;
+                }}
+                disabled={lastFrame || !active}
+              />
+            ) : (
+              <span className="frame__percentage">{dataId + 1}</span>
+            )}
           </div>
         )}
       </Draggable>

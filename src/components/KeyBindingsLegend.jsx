@@ -1,55 +1,62 @@
 import React from 'react';
-import style from 'styled-components';
+import styled from 'styled-components';
 
-const Title = style.h2`
-    font-size: 1.6em;
-    margin-top: 1em;
-    top: 0;
-    `;
+const Title = styled.h2`
+  font-size: 1.6em;
+  margin-top: 1em;
+  top: 0;
+`;
 
-const Category = style.h3`
-    margin-top: 1.6em;
-    font-size: 1.2em;
-    border-bottom: 1px solid;
-    `;
+const Category = styled.h3`
+  margin-top: 1.6em;
+  font-size: 1.2em;
+  border-bottom: 1px solid;
+`;
 
-const Wrapper = style.div`
-    padding: 2em;
-    margin: 0 auto;
+const Wrapper = styled.div`
+  padding: 2em;
+  margin: 0 auto;
+  width: 50%;
+  @media only screen and (max-width: 1000px) {
+    width: 100%;
+  }
+  @media only screen and (max-width: 600px) {
+    padding: 1em 0;
+    font-size: 0.8em;
+  }
+`;
+
+const ShortcutList = styled.div`
+  &:before,
+  &:after {
+    display: table;
+    content: ' ';
+    clear: both;
+  }
+  &:after {
+    clear: both;
+  }
+  padding: 0;
+`;
+
+const ShortcutOption = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 1em 0;
+
+  & > * {
     width: 50%;
-    @media only screen and (max-width: 1000px) {
-      width: 100%
-    }
-    @media only screen and (max-width: 600px) {
-      padding: 1em 0;
-      font-size: 0.8em;
-    }
-    `;
+  }
+`;
 
-const ShortcutList = style.div`
-    &:before, &:after {
-      display: table;
-      content: " ";
-      clear: both;
-    }
-    &:after {    
-      clear: both;
-    }
-    padding: 0;
-    `;
-
-const ShortcutOption = style.div`    
-    padding: 1.4em 0;
-    `;
-
-const KeyContainer = style.span`
-    padding: 0.1em 0.5em;
-    background-color: #4b4949;
-    border: 3px solid #313131;
-    color: #e0e0e0;
-    @media only screen and (max-width: 600px) {      
-      font-size: 0.8em;
-    }
+const KeyContainer = styled.span`
+  padding: 0.1em 0.5em;
+  background-color: #4b4949;
+  border: 3px solid #313131;
+  color: #e0e0e0;
+  @media only screen and (max-width: 600px) {
+    font-size: 0.8em;
+  }
 `;
 
 const Shortcut = ({ label, keyList }) => {
@@ -65,10 +72,10 @@ const Shortcut = ({ label, keyList }) => {
 
   return (
     <ShortcutOption>
-      <div className="col-1-2">
+      <div>
         <b>{label}</b>
       </div>
-      <div className="col-1-2">{combination(keyList)}</div>
+      <div>{combination(keyList)}</div>
     </ShortcutOption>
   );
 };

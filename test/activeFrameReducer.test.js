@@ -195,6 +195,29 @@ describe('framesReducer: CHANGE_FRAME_INTERVAL', () => {
   });
 });
 
+describe('activeFramesReducer: SET_FRAME_NAME', () => {
+  it('first time setting name', () => {
+    const state = framesMock(gridMock);
+    expect(
+      state.getIn(['list', state.get('activeIndex'), 'name'])
+    ).toBeUndefined();
+    const nextState1 = reducer(state, actions.setFrameName('newName'));
+    expect(
+      state.getIn(['list', state.get('activeIndex'), 'name'])
+    ).toBeUndefined();
+    expect(
+      nextState1.getIn(['list', nextState1.get('activeIndex'), 'name'])
+    ).toEqual('newName');
+    const nextState2 = reducer(nextState1, actions.setFrameName('anotherName'));
+    expect(
+      nextState1.getIn(['list', nextState1.get('activeIndex'), 'name'])
+    ).toEqual('newName');
+    expect(
+      nextState2.getIn(['list', nextState2.get('activeIndex'), 'name'])
+    ).toEqual('anotherName');
+  });
+});
+
 describe('framesReducer: MOVE_DRAWING', () => {
   let grid;
   let state;

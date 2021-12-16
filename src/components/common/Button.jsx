@@ -2,34 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { ThemeProvider, css } from 'styled-components';
 import theme from 'styled-theming';
-
-const colors = {
-  silver: '#bbb',
-  mineShaft: '#313131',
-  doveGray: '#707070',
-  tundora: '#4b4949',
-  lotus: '#803c3c',
-  buccaneer: '#733939',
-  cowboy: '#552a2a',
-  steelblue: '#5786c1',
-  sanMarino: '#4171ae',
-  eastBay: '#3a587f',
-  chathamsBlue: '#164075',
-  chambray: '#2f5382',
-  cloudBurst: '#253c5a',
-  alto: '#e0e0e0',
-  silveChalice: '#a0a0a0',
-  nobel: '#b7b7b7',
-  shrub: '#0e8044'
-};
+import { colors } from '../../utils/color';
 
 const textColor = theme.variants('mode', 'variant', {
-  default: { default: colors.silver },
-  action: { default: colors.silver },
-  close: { default: colors.silver },
-  info: { default: colors.silver },
+  default: { default: 'white' },
+  action: { default: 'white' },
+  close: { default: 'white' },
+  info: { default: 'white' },
   white: { default: 'black' },
-  proceed: { default: colors.silver }
+  proceed: { default: 'white' }
 });
 
 const bgColor = theme.variants('mode', 'variant', {
@@ -63,14 +44,14 @@ const ButtonCSS = css`
   background: none;
   border: none;
   outline: none;
-  border-radius: 2px;
+  border-radius: 10px;
   padding: 10px;
   font-size: 1em;
   text-decoration: none;
   transition-duration: 0.1s;
   color: ${textColor};
   background-color: ${bgColor};
-  box-shadow: 0 5px 0 0 ${boxShadowColor};
+  box-shadow: 3px 3px 0 0 ${boxShadowColor};
   margin: 0 auto;
   &:hover,
   &.selected {
@@ -133,7 +114,8 @@ const Button = ({
   type,
   size,
   ariaLabel,
-  disabled = false
+  disabled = false,
+  className
 }) => (
   <ThemeProvider theme={{ mode: 'default' }}>
     {type === 'file' ? (
@@ -145,6 +127,7 @@ const Button = ({
       </>
     ) : (
       <ButtonStyled
+        className={className}
         variant={variant}
         onClick={onClick}
         size={size}

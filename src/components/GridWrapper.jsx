@@ -50,6 +50,7 @@ export default class GridWrapper extends React.Component {
           drawHandlers={props.drawHandlers}
           classes={props.classes}
           nbrColumns={props.nbrColumns}
+          nbrRows={props.nbrRows}
           hoveredCell={props.hoveredCell}
         />
       </div>

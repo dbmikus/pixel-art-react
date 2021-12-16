@@ -1,9 +1,0 @@
-.pixel-art-react-container {
-  .eraser {
-    @mixin icon eraser;
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-}

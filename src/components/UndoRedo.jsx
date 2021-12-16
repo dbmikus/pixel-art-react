@@ -1,7 +1,10 @@
 import React from 'react';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../store/actions/actionCreators';
+import Button from './common/Button';
+import { colors } from '../utils/color';
 
 const UndoRedo = props => {
   const undo = () => {
@@ -13,33 +16,74 @@ const UndoRedo = props => {
   };
 
   return (
-    <div className="undo-redo">
-      <button
+    <UndoRedoStyled>
+      <Button
         type="button"
+        ariaLabel="undo"
         onClick={() => {
           undo();
         }}
       >
-        <span className="undo-redo__icon--undo" />
-      </button>
-      <button
+        <UndoIcon />
+      </Button>
+      <Button
         type="button"
+        ariaLabel="redo"
         onClick={() => {
           redo();
         }}
       >
-        <span className="undo-redo__icon--redo" />
-      </button>
-    </div>
+        <RedoIcon />
+      </Button>
+    </UndoRedoStyled>
   );
 };
+
+const UndoRedoStyled = styled.div`
+  lost-utility: clearfix;
+  display: flex;
+  flex-direction: row;
+  margin: 1em 0;
+
+  button {
+    width: calc(99.9% * 1 / 2 - (0.5em - 0.5em * 1 / 2));
+    margin-right: 0.5em;
+    background-color: ${colors.purple};
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    font-size: 1.2em;
+  }
+
+  & button:hover,
+  & button.selected {
+    background-color: ${colors.darkPurple} !important;
+  }
+`;
+
+const UndoIcon = styled.span`
+  font: normal normal normal 14px/1 WebFontIcons;
+  display: block;
+
+  &:before {
+    content: '\\70';
+  }
+`;
+
+const RedoIcon = styled.span`
+  font: normal normal normal 14px/1 WebFontIcons;
+  display: block;
+
+  &:before {
+    content: '\\71';
+  }
+`;
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actionCreators, dispatch)
 });
 
-const UndoRedoContainer = connect(
-  null,
-  mapDispatchToProps
-)(UndoRedo);
+const UndoRedoContainer = connect(null, mapDispatchToProps)(UndoRedo);
 export default UndoRedoContainer;

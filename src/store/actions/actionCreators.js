@@ -196,3 +196,10 @@ export function undo() {
 export function redo() {
   return ActionCreators.redo();
 }
+
+export function setFrameName(name) {
+  return {
+    type: types.SET_FRAME_NAME,
+    name
+  };
+}

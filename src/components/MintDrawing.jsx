@@ -1,10 +1,102 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import styled from 'styled-components';
 import shortid from 'shortid';
 import { useEthContext } from '../contexts/ethContext';
 import * as actionCreators from '../store/actions/actionCreators';
+import Button from './common/Button';
 import Grid from '../utils/grid';
+import { colors } from '../utils/color';
+
+const UNTITLED_DISPLAY_NAME = '(untitled)';
+
+const mintStates = {
+  PRE_MINT: 'PRE_MINT',
+  MINT_SUCCESS: 'MINT_SUCCESS',
+  MINT_FAILURE: 'MINT_FAILURE'
+};
+
+function MintModal(props) {
+  const [mintState, setMintState] = useState(mintStates.PRE_MINT);
+
+  const { pixlyName } = props;
+  const postMintFn = mintResult => {
+    Promise.resolve(mintResult)
+      .then(() => {
+        setMintState(mintStates.MINT_SUCCESS);
+      })
+      .catch(() => {
+        setMintState(mintStates.MINT_FAILURE);
+      });
+  };
+
+  let mintStateContent;
+  switch (mintState) {
+    case mintStates.PRE_MINT:
+      mintStateContent = <MintDrawing {...props} postMintFn={postMintFn} />;
+      break;
+    case mintStates.MINT_SUCCESS:
+      mintStateContent = <div>MINTED!</div>;
+      break;
+    case mintStates.MINT_FAILURE:
+      mintStateContent = (
+        <>
+          <MintDrawing {...props} postMintFn={postMintFn} />
+          <div>Failed to mint. Please try again.</div>
+        </>
+      );
+      break;
+    default:
+      console.error(`Unexpected mint state "${mintState}".`);
+      throw new Error(`Unexpected mint state "${mintState}".`);
+  }
+
+  return (
+    <div
+      css={`
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        & > * {
+          margin: 2em 0;
+        }
+      `}
+    >
+      <PixlyName>{pixlyName || UNTITLED_DISPLAY_NAME}</PixlyName>
+      {mintStateContent}
+    </div>
+  );
+}
+
+const mapStateToProps = state => {
+  const frames = state.present.get('frames');
+  const activeFrameIndex = frames.get('activeIndex');
+  return {
+    activeFrame: frames.getIn(['list', activeFrameIndex]),
+    pixlyName: frames.getIn(['list', activeFrameIndex, 'name']),
+    frames: frames.get('list'),
+    columns: frames.get('columns'),
+    rows: frames.get('rows'),
+    cellSize: state.present.get('cellSize'),
+    paletteGridData: state.present.getIn(['palette', 'grid'])
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actionCreators, dispatch)
+});
+
+const MintModalContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MintModal);
+export default MintModalContainer;
+
+const PixlyName = styled.span`
+  font-weight: bold;
+`;
 
 const MintDrawing = props => {
   const { mintFn } = useEthContext();
@@ -18,52 +110,49 @@ const MintDrawing = props => {
       columns: props.columns,
       rows: props.rows,
       animate: props.frames.size > 1,
-      id: shortid.generate()
+      id: shortid.generate(),
+      name: props.pixlyName
     };
 
     const grid = new Grid(drawingToMint.activeFrame, drawingToMint.columns);
-    mintFn(grid.toGridArray())
+    // Wrap in a promise, just in case the mintFn doesn't use one.
+    const mintResult = Promise.resolve(
+      mintFn(grid.toGridArray(), drawingToMint.name)
+    )
       .then(function(result) {
         if (result) {
-          props.actions.sendNotification('Drawing minted');
+          props.actions.sendNotification(
+            `Pixly "${drawingToMint.name || UNTITLED_DISPLAY_NAME}" minted`
+          );
         } else {
-          props.actions.sendNotification('Error minting');
+          throw new Error('mint result falsey');
         }
       })
       .catch(function(err) {
         props.actions.sendNotification('Error minting');
-        console.log('Error minting:', err);
+        console.error('Error minting:', err);
+        throw err;
       });
+    props.postMintFn(mintResult);
   };
 
   return (
-    <div className="mint-drawing">
-      <button type="button" onClick={mint}>
-        MINT
-      </button>
+    <div>
+      <MintButton type="button" ariaLabel="Mint Pixly" onClick={mint}>
+        CONFIRM MINT
+      </MintButton>
     </div>
   );
 };
 
-const mapStateToProps = state => {
-  const frames = state.present.get('frames');
-  const activeFrameIndex = frames.get('activeIndex');
-  return {
-    activeFrame: frames.getIn(['list', activeFrameIndex]),
-    frames: frames.get('list'),
-    columns: frames.get('columns'),
-    rows: frames.get('rows'),
-    cellSize: state.present.get('cellSize'),
-    paletteGridData: state.present.getIn(['palette', 'grid'])
-  };
-};
+const MintButton = styled(Button)`
+  background-color: ${colors.purple};
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actionCreators, dispatch)
-});
+  padding: 0.5em 2em;
+  margin-bottom: 0.6em;
 
-const MintDrawingContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MintDrawing);
-export default MintDrawingContainer;
+  &:hover,
+  &.selected {
+    background-color: ${colors.darkPurple} !important;
+  }
+`;
