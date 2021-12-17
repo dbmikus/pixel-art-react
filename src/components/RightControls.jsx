@@ -167,6 +167,7 @@ const StyledRightControlsMain = styled(RightControlsMain)`
   align-items: center;
 
   @media only screen and (max-width: 1050px) {
+    max-width: 25em;
     flex-direction: row;
     padding-top: 1.5em;
     padding-bottom: 1.5em;
@@ -174,6 +175,14 @@ const StyledRightControlsMain = styled(RightControlsMain)`
 
   @media only screen and (max-width: 415px) {
     flex-direction: column;
+  }
+
+  & > .app__mobile--group:first-child {
+    margin-right: 0.5em;
+  }
+  & > .app__mobile--group {
+    margin-left: 0.5em;
+    margin-right: 0;
   }
 `;
 
