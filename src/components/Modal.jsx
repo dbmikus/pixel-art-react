@@ -17,7 +17,7 @@ import CopyCSS from './CopyCSS';
 import DownloadDrawing from './DownloadDrawing';
 import KeyBindingsLegend from './KeyBindingsLegend';
 import Button from './common/Button';
-import MintModalContainer from './MintDrawing';
+import MintModalContainer from './MintModal';
 import { colors } from '../utils/color';
 
 export const modalTypes = {
