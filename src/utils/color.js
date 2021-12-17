@@ -137,6 +137,7 @@ export const colors = {
   darkBg0: '#202225',
   darkBg1: '#36393F',
   lightGray: '#B9BBBE',
+  lightestGray: '#E5E8EB',
   purple: '#5865F2',
   darkPurple: '#3943b5',
   darkGreen: '#3BA55D',

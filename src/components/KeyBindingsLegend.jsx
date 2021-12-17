@@ -1,12 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Title = styled.h2`
-  font-size: 1.6em;
-  margin-top: 1em;
-  top: 0;
-`;
-
 const Category = styled.h3`
   margin-top: 1.6em;
   font-size: 1.2em;
@@ -15,6 +9,7 @@ const Category = styled.h3`
 
 const Wrapper = styled.div`
   padding: 2em;
+  padding-top: 0em;
   margin: 0 auto;
   width: 50%;
   @media only screen and (max-width: 1000px) {
@@ -82,7 +77,6 @@ const Shortcut = ({ label, keyList }) => {
 
 const KeyBindingsLegend = () => (
   <Wrapper>
-    <Title>Keyboard Shortcuts</Title>
     <Category>History</Category>
     <ShortcutList>
       <Shortcut label="Undo" keyList={['CTRL', 'Z']} />

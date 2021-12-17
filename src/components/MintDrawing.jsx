@@ -20,7 +20,7 @@ const mintStates = {
 function MintModal(props) {
   const [mintState, setMintState] = useState(mintStates.PRE_MINT);
 
-  const { pixlyName } = props;
+  const { pixlyName, previewBlock } = props;
   const postMintFn = mintResult => {
     Promise.resolve(mintResult)
       .then(() => {
@@ -34,7 +34,12 @@ function MintModal(props) {
   let mintStateContent;
   switch (mintState) {
     case mintStates.PRE_MINT:
-      mintStateContent = <MintDrawing {...props} postMintFn={postMintFn} />;
+      mintStateContent = (
+        <>
+          Minting on Polygon
+          <MintDrawing {...props} postMintFn={postMintFn} />
+        </>
+      );
       break;
     case mintStates.MINT_SUCCESS:
       mintStateContent = <div>MINTED!</div>;
@@ -65,6 +70,7 @@ function MintModal(props) {
       `}
     >
       <PixlyName>{pixlyName || UNTITLED_DISPLAY_NAME}</PixlyName>
+      {previewBlock}
       {mintStateContent}
     </div>
   );
@@ -139,7 +145,7 @@ const MintDrawing = props => {
   return (
     <div>
       <MintButton type="button" ariaLabel="Mint Pixly" onClick={mint}>
-        CONFIRM MINT
+        Confirm mint
       </MintButton>
     </div>
   );

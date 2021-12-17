@@ -18,6 +18,7 @@ import DownloadDrawing from './DownloadDrawing';
 import KeyBindingsLegend from './KeyBindingsLegend';
 import Button from './common/Button';
 import MintModalContainer from './MintDrawing';
+import { colors } from '../utils/color';
 
 export const modalTypes = {
   COPY_CSS: 'copycss',
@@ -27,6 +28,8 @@ export const modalTypes = {
   PREVIEW: 'preview',
   MINT: 'mint'
 };
+
+const MODAL_PADDING = 20;
 
 class Modal extends React.Component {
   static generateRadioOptions(props) {
@@ -222,8 +225,7 @@ class Modal extends React.Component {
       case modalTypes.MINT:
         content = (
           <>
-            {previewBlock}
-            <MintModalContainer />
+            <MintModalContainer previewBlock={previewBlock} />
           </>
         );
         radioOptions = null;
@@ -235,7 +237,8 @@ class Modal extends React.Component {
 
     return (
       <div className={props.className}>
-        <div className="modal__header">
+        <Header>
+          <HeaderTitle>{this.getModalTitle()}</HeaderTitle>
           <CloseButton
             ariaLabel="close modal"
             type="button"
@@ -243,13 +246,42 @@ class Modal extends React.Component {
           >
             x
           </CloseButton>
-        </div>
+        </Header>
         {radioOptions}
         <div className="modal__body" ref={this.modalBodyRef}>
           {content}
         </div>
       </div>
     );
+  }
+
+  getModalTitle() {
+    const { type } = this.props;
+
+    switch (type) {
+      case modalTypes.LOAD:
+        return 'Load Drawing';
+      case modalTypes.COPY_CSS:
+        return 'Copy Drawing as CSS';
+      case modalTypes.KEYBINDINGS:
+        return 'Keyboard Shortcuts';
+      case modalTypes.DOWNLOAD:
+        return 'Download Drawing';
+      case modalTypes.PREVIEW:
+        return 'Preview';
+      case modalTypes.MINT:
+        return 'Complete Checkout';
+      default:
+        return '';
+    }
+  }
+
+  getInset() {
+    const { type } = this.props;
+    if (type === modalTypes.MINT) {
+      return '15% 20%';
+    }
+    return '40px';
   }
 
   changeRadioType(value, type) {
@@ -270,7 +302,12 @@ class Modal extends React.Component {
     const styles = {
       content: {
         overflow: 'hidden',
-        display: 'flex'
+        display: 'flex',
+        padding: MODAL_PADDING,
+        inset: this.getInset(),
+        borderRadius: 12,
+        maxWidth: 800,
+        margin: 'auto'
       }
     };
 
@@ -296,10 +333,7 @@ const StyledModal = styled(Modal)`
   display: flex;
   flex: 1;
   flex-direction: column;
-  .modal__header {
-    text-align: right;
-    padding-bottom: 1em;
-  }
+
   .preview {
     margin: 0 auto;
   }
@@ -355,6 +389,32 @@ const ModalContainer = connect(
 )(StyledModal);
 export default ModalContainer;
 
+const Header = styled.div`
+  box-sizing: border-box;
+  width: calc(100% + ${2 * MODAL_PADDING}px);
+  position: relative;
+  left: -20px;
+  padding-left: ${MODAL_PADDING}px;
+  padding-right: ${MODAL_PADDING}px;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  border-bottom: solid 1px ${colors.lightestGray};
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+`;
+
+const HeaderTitle = styled.span`
+  font-weight: 700;
+  font-size: 1.4em;
+`;
+
 const CloseButton = styled(Button)`
   padding: 0.4em 0.7em 0.3em 0.8em;
+  margin: 0;
+  position: absolute;
+  top: -6px;
+  right: ${MODAL_PADDING}px;
 `;
