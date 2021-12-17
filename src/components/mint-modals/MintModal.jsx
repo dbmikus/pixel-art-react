@@ -3,13 +3,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import shortid from 'shortid';
-import { useEthContext } from '../contexts/ethContext';
-import * as actionCreators from '../store/actions/actionCreators';
-import Button from './common/Button';
-import Grid from '../utils/grid';
-import { colors } from '../utils/color';
-
-const UNTITLED_DISPLAY_NAME = '(untitled)';
+import { useEthContext } from '../../contexts/ethContext';
+import * as actionCreators from '../../store/actions/actionCreators';
+import Button from '../common/Button';
+import Grid from '../../utils/grid';
+import { colors } from '../../utils/color';
+import { UNTITLED_DISPLAY_NAME, ModalContainer, Preview } from './common';
 
 const mintStates = {
   PRE_MINT: 'PRE_MINT',
@@ -52,21 +51,10 @@ function MintModal(props) {
   }
 
   return (
-    <div
-      css={`
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        & > * {
-          margin: 2em 0;
-        }
-      `}
-    >
-      <PixlyName>{pixlyName || UNTITLED_DISPLAY_NAME}</PixlyName>
-      {previewBlock}
+    <ModalContainer>
+      <Preview pixlyName={pixlyName} previewBlock={previewBlock} />
       {mintStateContent}
-    </div>
+    </ModalContainer>
   );
 }
 
@@ -93,10 +81,6 @@ const MintModalContainer = connect(
   mapDispatchToProps
 )(MintModal);
 export default MintModalContainer;
-
-const PixlyName = styled.span`
-  font-weight: bold;
-`;
 
 const MintDrawing = props => {
   const { mintFn } = useEthContext();

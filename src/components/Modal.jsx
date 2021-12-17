@@ -17,7 +17,8 @@ import CopyCSS from './CopyCSS';
 import DownloadDrawing from './DownloadDrawing';
 import KeyBindingsLegend from './KeyBindingsLegend';
 import Button from './common/Button';
-import MintModalContainer from './MintModal';
+// import MintModalContainer from './MintModal';
+import { MintModal, MintSuccessModal } from './mint-modals';
 import { colors } from '../utils/color';
 
 export const modalTypes = {
@@ -225,24 +226,22 @@ class Modal extends React.Component {
         break;
       case modalTypes.MINT:
         content = (
-          <>
-            <MintModalContainer
-              previewBlock={previewBlock}
-              onMintSuccess={mintResultNode => {
-                this.setMintResultNode(mintResultNode);
-                props.onMintSuccess();
-              }}
-            />
-          </>
+          <MintModal
+            previewBlock={previewBlock}
+            onMintSuccess={mintResultNode => {
+              this.setMintResultNode(mintResultNode);
+              props.onMintSuccess();
+            }}
+          />
         );
         radioOptions = null;
         break;
       case modalTypes.MINT_SUCCESS:
         content = (
-          <>
-            <div>It worked</div>
-            <div>{this.renderMintResultNode()}</div>
-          </>
+          <MintSuccessModal
+            mintResultNode={this.renderMintResultNode()}
+            previewBlock={previewBlock}
+          />
         );
         radioOptions = null;
         break;
