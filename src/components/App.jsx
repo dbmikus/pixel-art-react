@@ -203,6 +203,9 @@ class App extends React.Component {
         <ModalContainer
           type={modalType}
           isOpen={modalOpen}
+          onMintSuccess={() => {
+            this.changeModalType(modalTypes.MINT_SUCCESS);
+          }}
           close={() => {
             this.closeModal();
           }}

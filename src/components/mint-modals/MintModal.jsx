@@ -3,29 +3,26 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import shortid from 'shortid';
-import { useEthContext } from '../contexts/ethContext';
-import * as actionCreators from '../store/actions/actionCreators';
-import Button from './common/Button';
-import Grid from '../utils/grid';
-import { colors } from '../utils/color';
-
-const UNTITLED_DISPLAY_NAME = '(untitled)';
+import { useEthContext } from '../../contexts/ethContext';
+import * as actionCreators from '../../store/actions/actionCreators';
+import Button from '../common/Button';
+import PolygonLogo from '../svg/PolygonLogo';
+import Grid from '../../utils/grid';
+import { colors } from '../../utils/color';
+import { UNTITLED_DISPLAY_NAME, ModalContainer, Preview } from './common';
 
 const mintStates = {
   PRE_MINT: 'PRE_MINT',
-  MINT_SUCCESS: 'MINT_SUCCESS',
   MINT_FAILURE: 'MINT_FAILURE'
 };
 
 function MintModal(props) {
   const [mintState, setMintState] = useState(mintStates.PRE_MINT);
 
-  const { pixlyName } = props;
+  const { pixlyName, previewBlock, onMintSuccess } = props;
   const postMintFn = mintResult => {
     Promise.resolve(mintResult)
-      .then(() => {
-        setMintState(mintStates.MINT_SUCCESS);
-      })
+      .then(onMintSuccess)
       .catch(() => {
         setMintState(mintStates.MINT_FAILURE);
       });
@@ -34,10 +31,17 @@ function MintModal(props) {
   let mintStateContent;
   switch (mintState) {
     case mintStates.PRE_MINT:
-      mintStateContent = <MintDrawing {...props} postMintFn={postMintFn} />;
-      break;
-    case mintStates.MINT_SUCCESS:
-      mintStateContent = <div>MINTED!</div>;
+      mintStateContent = (
+        <>
+          <div css="display: flex; flex-direction: row; align-items: flex-end;">
+            <PolygonLogo alt="Polygon logo" />
+            <span css="margin-left: 1em; font-size: 1.4em;">
+              Minting on Polygon
+            </span>
+          </div>
+          <MintDrawing {...props} postMintFn={postMintFn} />
+        </>
+      );
       break;
     case mintStates.MINT_FAILURE:
       mintStateContent = (
@@ -53,20 +57,10 @@ function MintModal(props) {
   }
 
   return (
-    <div
-      css={`
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        & > * {
-          margin: 2em 0;
-        }
-      `}
-    >
-      <PixlyName>{pixlyName || UNTITLED_DISPLAY_NAME}</PixlyName>
+    <ModalContainer>
+      <Preview pixlyName={pixlyName} previewBlock={previewBlock} />
       {mintStateContent}
-    </div>
+    </ModalContainer>
   );
 }
 
@@ -93,10 +87,6 @@ const MintModalContainer = connect(
   mapDispatchToProps
 )(MintModal);
 export default MintModalContainer;
-
-const PixlyName = styled.span`
-  font-weight: bold;
-`;
 
 const MintDrawing = props => {
   const { mintFn } = useEthContext();
@@ -127,6 +117,7 @@ const MintDrawing = props => {
         } else {
           throw new Error('mint result falsey');
         }
+        return result;
       })
       .catch(function(err) {
         props.actions.sendNotification('Error minting');
@@ -139,7 +130,7 @@ const MintDrawing = props => {
   return (
     <div>
       <MintButton type="button" ariaLabel="Mint Pixly" onClick={mint}>
-        CONFIRM MINT
+        Confirm mint
       </MintButton>
     </div>
   );

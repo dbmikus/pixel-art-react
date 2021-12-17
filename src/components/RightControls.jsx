@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { setFrameName } from '../store/actions/actionCreators';
@@ -21,6 +21,10 @@ function RightControls({
   setPixlyName,
   pixlyName
 }) {
+  const [errorMsg, setErrorMsg] = useState(null);
+  console.log('error message');
+  console.log(errorMsg);
+
   return (
     <div className={`app__right-side ${className}`}>
       <RightControlsInnerContainer>
@@ -38,16 +42,31 @@ function RightControls({
             <MintButton
               type="button"
               ariaLabel="Mint Pixly"
-              onClick={mintClickFn}
+              onClick={() => {
+                if (pixlyName) {
+                  setErrorMsg(null);
+                  mintClickFn();
+                } else {
+                  setErrorMsg('Pixly name required.');
+                }
+              }}
             >
               MINT PIXLY!
             </MintButton>
+            {errorMsg ? <ErrorMessage>{errorMsg}</ErrorMessage> : null}
           </div>
         </div>
       </RightControlsInnerContainer>
     </div>
   );
 }
+
+const ErrorMessage = styled.div`
+  color: red;
+  font-size: 1.2em;
+  margin-top: 0.5em;
+  text-align: center;
+`;
 
 const mapStateToProps = state => {
   const frames = state.present.get('frames');
@@ -167,6 +186,7 @@ const StyledRightControlsMain = styled(RightControlsMain)`
   align-items: center;
 
   @media only screen and (max-width: 1050px) {
+    max-width: 25em;
     flex-direction: row;
     padding-top: 1.5em;
     padding-bottom: 1.5em;
@@ -174,6 +194,14 @@ const StyledRightControlsMain = styled(RightControlsMain)`
 
   @media only screen and (max-width: 415px) {
     flex-direction: column;
+  }
+
+  & > .app__mobile--group:first-child {
+    margin-right: 0.5em;
+  }
+  & > .app__mobile--group {
+    margin-left: 0.5em;
+    margin-right: 0;
   }
 `;
 

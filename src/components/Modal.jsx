@@ -17,7 +17,9 @@ import CopyCSS from './CopyCSS';
 import DownloadDrawing from './DownloadDrawing';
 import KeyBindingsLegend from './KeyBindingsLegend';
 import Button from './common/Button';
-import MintModalContainer from './MintDrawing';
+// import MintModalContainer from './MintModal';
+import { MintModal, MintSuccessModal } from './mint-modals';
+import { colors } from '../utils/color';
 
 export const modalTypes = {
   COPY_CSS: 'copycss',
@@ -25,8 +27,11 @@ export const modalTypes = {
   KEYBINDINGS: 'keybindings',
   DOWNLOAD: 'download',
   PREVIEW: 'preview',
-  MINT: 'mint'
+  MINT: 'mint',
+  MINT_SUCCESS: 'mintsuccess'
 };
+
+const MODAL_PADDING = 20;
 
 class Modal extends React.Component {
   static generateRadioOptions(props) {
@@ -128,6 +133,14 @@ class Modal extends React.Component {
     const { previewType, loadType } = this.state;
     const options = this.constructor.generateRadioOptions(props);
     let content;
+    let previewCellSize;
+    if (props.type === modalTypes.PREVIEW) {
+      previewCellSize = props.cellSize;
+    } else if (props.type === modalTypes.MINT_SUCCESS) {
+      previewCellSize = 2;
+    } else {
+      previewCellSize = 5;
+    }
     const previewBlock = (
       <>
         {previewType !== 'spritesheet' ? (
@@ -137,7 +150,7 @@ class Modal extends React.Component {
               frames={props.frames}
               columns={props.columns}
               rows={props.rows}
-              cellSize={props.type === modalTypes.PREVIEW ? props.cellSize : 5}
+              cellSize={previewCellSize}
               duration={props.duration}
               activeFrameIndex={props.activeFrameIndex}
               animate={previewType === 'animation'}
@@ -221,10 +234,22 @@ class Modal extends React.Component {
         break;
       case modalTypes.MINT:
         content = (
-          <>
-            {previewBlock}
-            <MintModalContainer />
-          </>
+          <MintModal
+            previewBlock={previewBlock}
+            onMintSuccess={mintResultNode => {
+              this.setMintResultNode(mintResultNode);
+              props.onMintSuccess();
+            }}
+          />
+        );
+        radioOptions = null;
+        break;
+      case modalTypes.MINT_SUCCESS:
+        content = (
+          <MintSuccessModal
+            mintResultNode={this.renderMintResultNode()}
+            previewBlock={previewBlock}
+          />
         );
         radioOptions = null;
         break;
@@ -235,7 +260,8 @@ class Modal extends React.Component {
 
     return (
       <div className={props.className}>
-        <div className="modal__header">
+        <Header>
+          <HeaderTitle>{this.getModalTitle()}</HeaderTitle>
           <CloseButton
             ariaLabel="close modal"
             type="button"
@@ -243,13 +269,50 @@ class Modal extends React.Component {
           >
             x
           </CloseButton>
-        </div>
+        </Header>
         {radioOptions}
         <div className="modal__body" ref={this.modalBodyRef}>
           {content}
         </div>
       </div>
     );
+  }
+
+  getModalTitle() {
+    const { type } = this.props;
+
+    switch (type) {
+      case modalTypes.LOAD:
+        return 'Load Drawing';
+      case modalTypes.COPY_CSS:
+        return 'Copy Drawing as CSS';
+      case modalTypes.KEYBINDINGS:
+        return 'Keyboard Shortcuts';
+      case modalTypes.DOWNLOAD:
+        return 'Download Drawing';
+      case modalTypes.PREVIEW:
+        return 'Preview';
+      case modalTypes.MINT:
+        return 'Complete Checkout';
+      case modalTypes.MINT_SUCCESS:
+        return 'Mint Successful';
+      default:
+        return '';
+    }
+  }
+
+  getInset() {
+    const { type } = this.props;
+    if (type === modalTypes.MINT || type === modalTypes.MINT_SUCCESS) {
+      return '15% 20%';
+    }
+    return '40px';
+  }
+
+  setMintResultNode(mintResultNode) {
+    const newState = { ...this.state };
+    newState.mintResultNode = mintResultNode;
+    this.setState(newState);
   }
 
   changeRadioType(value, type) {
@@ -265,12 +328,22 @@ class Modal extends React.Component {
     this.setState(newState);
   }
 
+  renderMintResultNode() {
+    const { mintResultNode } = this.state;
+    return mintResultNode;
+  }
+
   render() {
     const { isOpen, type } = this.props;
     const styles = {
       content: {
         overflow: 'hidden',
-        display: 'flex'
+        display: 'flex',
+        padding: MODAL_PADDING,
+        inset: this.getInset(),
+        borderRadius: 12,
+        maxWidth: 800,
+        margin: 'auto'
       }
     };
 
@@ -296,10 +369,7 @@ const StyledModal = styled(Modal)`
   display: flex;
   flex: 1;
   flex-direction: column;
-  .modal__header {
-    text-align: right;
-    padding-bottom: 1em;
-  }
+
   .preview {
     margin: 0 auto;
   }
@@ -355,6 +425,32 @@ const ModalContainer = connect(
 )(StyledModal);
 export default ModalContainer;
 
+const Header = styled.div`
+  box-sizing: border-box;
+  width: calc(100% + ${2 * MODAL_PADDING}px);
+  position: relative;
+  left: -20px;
+  padding-left: ${MODAL_PADDING}px;
+  padding-right: ${MODAL_PADDING}px;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  border-bottom: solid 1px ${colors.lightestGray};
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+`;
+
+const HeaderTitle = styled.span`
+  font-weight: 700;
+  font-size: 1.4em;
+`;
+
 const CloseButton = styled(Button)`
   padding: 0.4em 0.7em 0.3em 0.8em;
+  margin: 0;
+  position: absolute;
+  top: -6px;
+  right: ${MODAL_PADDING}px;
 `;
