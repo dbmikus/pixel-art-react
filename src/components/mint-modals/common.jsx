@@ -13,7 +13,7 @@ export const ModalContainer = styled.div`
   align-items: center;
 
   & > * {
-    margin: 2em 0;
+    margin: 0.75em 0;
   }
 `;
 

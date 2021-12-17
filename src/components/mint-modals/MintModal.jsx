@@ -32,6 +32,7 @@ function MintModal(props) {
     case mintStates.PRE_MINT:
       mintStateContent = (
         <>
+          {/* TODO SVG HERE */}
           Minting on Polygon
           <MintDrawing {...props} postMintFn={postMintFn} />
         </>
