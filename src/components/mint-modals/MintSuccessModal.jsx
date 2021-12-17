@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { ModalContainer, Preview } from './common';
 import Button from '../common/Button';
 import TwitterLogo from '../svg/TwitterLogo';
+import DoneCheckmark from '../svg/DoneCheckmark';
 import { colors } from '../../utils/color';
 
 function MintSuccessModal({ pixlyName, mintResultNode, previewBlock }) {
@@ -22,6 +23,7 @@ function MintSuccessModal({ pixlyName, mintResultNode, previewBlock }) {
           }
         `}
       >
+        <DoneCheckmark height={50} />
         <div>Transaction completed!</div>
         <Share>
           <ShareButton ariaLabel={twitterAriaLabel}>

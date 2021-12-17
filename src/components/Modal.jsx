@@ -133,6 +133,14 @@ class Modal extends React.Component {
     const { previewType, loadType } = this.state;
     const options = this.constructor.generateRadioOptions(props);
     let content;
+    let previewCellSize;
+    if (props.type === modalTypes.PREVIEW) {
+      previewCellSize = props.cellSize;
+    } else if (props.type === modalTypes.MINT_SUCCESS) {
+      previewCellSize = 2;
+    } else {
+      previewCellSize = 5;
+    }
     const previewBlock = (
       <>
         {previewType !== 'spritesheet' ? (
@@ -142,7 +150,7 @@ class Modal extends React.Component {
               frames={props.frames}
               columns={props.columns}
               rows={props.rows}
-              cellSize={props.type === modalTypes.PREVIEW ? props.cellSize : 5}
+              cellSize={previewCellSize}
               duration={props.duration}
               activeFrameIndex={props.activeFrameIndex}
               animate={previewType === 'animation'}
