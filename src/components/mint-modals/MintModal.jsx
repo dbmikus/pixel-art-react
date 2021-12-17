@@ -6,6 +6,7 @@ import shortid from 'shortid';
 import { useEthContext } from '../../contexts/ethContext';
 import * as actionCreators from '../../store/actions/actionCreators';
 import Button from '../common/Button';
+import PolygonLogo from '../svg/PolygonLogo';
 import Grid from '../../utils/grid';
 import { colors } from '../../utils/color';
 import { UNTITLED_DISPLAY_NAME, ModalContainer, Preview } from './common';
@@ -32,8 +33,12 @@ function MintModal(props) {
     case mintStates.PRE_MINT:
       mintStateContent = (
         <>
-          {/* TODO SVG HERE */}
-          Minting on Polygon
+          <div css="display: flex; flex-direction: row; align-items: flex-end;">
+            <PolygonLogo alt="Polygon logo" />
+            <span css="margin-left: 1em; font-size: 1.4em;">
+              Minting on Polygon
+            </span>
+          </div>
           <MintDrawing {...props} postMintFn={postMintFn} />
         </>
       );
