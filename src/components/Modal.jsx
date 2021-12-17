@@ -26,7 +26,8 @@ export const modalTypes = {
   KEYBINDINGS: 'keybindings',
   DOWNLOAD: 'download',
   PREVIEW: 'preview',
-  MINT: 'mint'
+  MINT: 'mint',
+  MINT_SUCCESS: 'mintsuccess'
 };
 
 const MODAL_PADDING = 20;
@@ -225,7 +226,18 @@ class Modal extends React.Component {
       case modalTypes.MINT:
         content = (
           <>
-            <MintModalContainer previewBlock={previewBlock} />
+            <MintModalContainer
+              previewBlock={previewBlock}
+              onMintSuccess={props.onMintSuccess}
+            />
+          </>
+        );
+        radioOptions = null;
+        break;
+      case modalTypes.MINT_SUCCESS:
+        content = (
+          <>
+            <div>It worked</div>
           </>
         );
         radioOptions = null;
@@ -271,6 +283,8 @@ class Modal extends React.Component {
         return 'Preview';
       case modalTypes.MINT:
         return 'Complete Checkout';
+      case modalTypes.MINT_SUCCESS:
+        return 'Mint Successful';
       default:
         return '';
     }
@@ -278,7 +292,7 @@ class Modal extends React.Component {
 
   getInset() {
     const { type } = this.props;
-    if (type === modalTypes.MINT) {
+    if (type === modalTypes.MINT || type === modalTypes.MINT_SUCCESS) {
       return '15% 20%';
     }
     return '40px';

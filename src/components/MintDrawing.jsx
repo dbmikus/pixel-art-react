@@ -13,19 +13,16 @@ const UNTITLED_DISPLAY_NAME = '(untitled)';
 
 const mintStates = {
   PRE_MINT: 'PRE_MINT',
-  MINT_SUCCESS: 'MINT_SUCCESS',
   MINT_FAILURE: 'MINT_FAILURE'
 };
 
 function MintModal(props) {
   const [mintState, setMintState] = useState(mintStates.PRE_MINT);
 
-  const { pixlyName, previewBlock } = props;
+  const { pixlyName, previewBlock, onMintSuccess } = props;
   const postMintFn = mintResult => {
     Promise.resolve(mintResult)
-      .then(() => {
-        setMintState(mintStates.MINT_SUCCESS);
-      })
+      .then(onMintSuccess)
       .catch(() => {
         setMintState(mintStates.MINT_FAILURE);
       });
@@ -40,9 +37,6 @@ function MintModal(props) {
           <MintDrawing {...props} postMintFn={postMintFn} />
         </>
       );
-      break;
-    case mintStates.MINT_SUCCESS:
-      mintStateContent = <div>MINTED!</div>;
       break;
     case mintStates.MINT_FAILURE:
       mintStateContent = (
