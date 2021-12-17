@@ -21,10 +21,11 @@ const EthContext = createContext(null);
  *
  * // grid is a 2D grid, so each inner array must be the same length
  * // name is the name of the item being minted
- * (grid: Array<Array<RGBA>>, name: string): Promise<boolean>
+ * (grid: Array<Array<RGBA>>, name: string): Promise<React.ReactNode>
  * ```
  *
- * The return value is whether minting succeeded or failed.
+ * If it succeeds, the call should return a React.ReactNode which can be
+ * rendered how the UI chooses. If it fails, an exception will be raised.
  */
 function EthContextProvider({ mintFn, children }) {
   return (

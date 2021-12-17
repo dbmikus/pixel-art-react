@@ -9,7 +9,7 @@ ReactDOM.render(
       console.log(grid);
 
       return new Promise(resolve => {
-        resolve(true);
+        resolve('Success');
       });
     }}
     frameConfig={{ columns: 24, rows: 30 }}

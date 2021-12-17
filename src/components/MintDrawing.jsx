@@ -127,6 +127,7 @@ const MintDrawing = props => {
         } else {
           throw new Error('mint result falsey');
         }
+        return result;
       })
       .catch(function(err) {
         props.actions.sendNotification('Error minting');

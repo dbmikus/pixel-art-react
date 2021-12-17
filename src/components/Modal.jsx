@@ -228,7 +228,10 @@ class Modal extends React.Component {
           <>
             <MintModalContainer
               previewBlock={previewBlock}
-              onMintSuccess={props.onMintSuccess}
+              onMintSuccess={mintResultNode => {
+                this.setMintResultNode(mintResultNode);
+                props.onMintSuccess();
+              }}
             />
           </>
         );
@@ -238,6 +241,7 @@ class Modal extends React.Component {
         content = (
           <>
             <div>It worked</div>
+            <div>{this.renderMintResultNode()}</div>
           </>
         );
         radioOptions = null;
@@ -298,6 +302,12 @@ class Modal extends React.Component {
     return '40px';
   }
 
+  setMintResultNode(mintResultNode) {
+    const newState = { ...this.state };
+    newState.mintResultNode = mintResultNode;
+    this.setState(newState);
+  }
+
   changeRadioType(value, type) {
     const newState = {};
     this.scrollTop();
@@ -309,6 +319,11 @@ class Modal extends React.Component {
         newState.previewType = value;
     }
     this.setState(newState);
+  }
+
+  renderMintResultNode() {
+    const { mintResultNode } = this.state;
+    return mintResultNode;
   }
 
   render() {
